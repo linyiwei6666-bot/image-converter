@@ -1,20 +1,37 @@
 <script setup>
-import { ref } from "vue"
+import { ref, watch, onMounted } from "vue"
+import { useRoute } from "vue-router"
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
 import UploadBox from "../components/UploadBox.vue"
 import ConvertOptions from "../components/ConvertOptions.vue"
 
+const route = useRoute()
 const selectedFile = ref(null)
-
 const showModal = ref(false)
 const success = ref(false)
 const resultUrl = ref(null)
 const isLoading = ref(false)
+const pageTitle = ref("Free Online Image Converter")
 
-function handleFile(file) {
-  selectedFile.value = file
+const titleMap = {
+  "jpg-to-png": "JPG to PNG Converter",
+  "png-to-jpg": "PNG to JPG Converter",
+  "png-to-webp": "PNG to WEBP Converter",
+  "webp-to-png": "WEBP to PNG Converter",
+  "jpg-to-webp": "JPG to WEBP Converter",
+  "webp-to-jpg": "WEBP to JPG Converter",
 }
+
+function updatePageTitle(path) {
+  const key = Object.keys(titleMap).find(k => path.includes(k))
+  pageTitle.value = key ? titleMap[key] : "Free Online Image Converter"
+}
+
+onMounted(() => updatePageTitle(route.path))
+watch(() => route.path, (newPath) => updatePageTitle(newPath), { immediate: true })
+
+function handleFile(file) { selectedFile.value = file }
 
 function convertImage(options) {
   if (!selectedFile.value) {
@@ -24,38 +41,32 @@ function convertImage(options) {
   }
 
   const { format, quality } = options
-
   isLoading.value = true
 
   const img = new Image()
   img.src = URL.createObjectURL(selectedFile.value)
-
   img.onload = () => {
     try {
       const canvas = document.createElement("canvas")
       canvas.width = img.width
       canvas.height = img.height
-
       const ctx = canvas.getContext("2d")
       ctx.drawImage(img, 0, 0)
 
       canvas.toBlob(
         (blob) => {
           isLoading.value = false
-
-          if (!blob) {
-            success.value = false
-          } else {
+          if (!blob) success.value = false
+          else {
             resultUrl.value = URL.createObjectURL(blob)
             success.value = true
           }
-
           showModal.value = true
         },
         format,
         format === "image/png" ? undefined : quality
       )
-    } catch (e) {
+    } catch {
       isLoading.value = false
       success.value = false
       showModal.value = true
@@ -69,78 +80,79 @@ function convertImage(options) {
   }
 }
 
-function closeModal() {
-  showModal.value = false
-}
+function closeModal() { showModal.value = false }
 </script>
 
 <template>
   <Navbar />
 
   <div class="container">
-    <h1>Convert Image</h1>
+    <h1>{{ pageTitle }}</h1>
 
     <UploadBox @file-selected="handleFile" />
 
     <ConvertOptions @convert="convertImage" />
 
-    <!-- 页面广告位 -->
+
+    <!-- 页面广告位 ：主区域底部 -->
     <!-- <div class="adsense-slot">
-      AdSense Space (Responsive Banner)
+      
+      AdSense Space (728x90)
     </div> -->
   </div>
 
-  <!-- 🔥 弹窗 -->
+  <!-- 弹窗 -->
   <div v-if="showModal" class="modal-overlay">
     <div class="modal">
-
       <button class="modal-close" @click="closeModal"> × </button>
 
-      
-      <div
-        class="status-icon"
-        :class="success ? 'success-icon' : 'error-icon'"
-      >
+      <div class="status-icon" :class="success ? 'success-icon' : 'error-icon'">
         {{ success ? "✓" : "!" }}
       </div>
 
-      <h2>
-        {{ success ? "Conversion Successful" : "Conversion Failed" }}
-      </h2>
+      <h2>{{ success ? "Conversion Successful" : "Conversion Failed" }}</h2>
 
-      <p>
-        {{ success
-          ? "Your image has been successfully converted."
-          : "Please upload a valid image and try again." }}
-      </p>
+      <p>{{ success ? "Your image has been successfully converted." : "Please upload a valid image and try again." }}</p>
 
-      <a
-        v-if="success"
-        :href="resultUrl"
-        download="converted-image"
-        class="download-btn"
-      >
+      <a v-if="success" :href="resultUrl" download="converted-image" class="download-btn">
         Download Image
       </a>
-      
-      <!-- 广告位 -->
+
+      <!-- 弹窗广告位 -->
       <!-- <div class="adsense-modal">
+        
         AdSense Space (300x250)
       </div> -->
-
     </div>
   </div>
 
-
-  <!-- loading 遮罩 -->
-  <div v-if="isLoading" class="loading-overlay">
-    Converting...
-  </div>
+  <div v-if="isLoading" class="loading-overlay">Converting...</div>
 
   <Footer />
 </template>
 
 <style scoped>
+/* 页面广告占位样式 */
+.adsense-slot {
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px dashed #ccc;
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+/* 弹窗广告占位 */
+.adsense-modal {
+  margin: 20px auto 0;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  text-align: center;
+  font-size: 13px;
+  color: #777;
+  max-width: 300px;
+}
+
 .adsense-slot {
   margin-top: 40px;
   padding: 20px;
@@ -367,4 +379,6 @@ function closeModal() {
   font-size: 18px;
   font-weight: 600;
 }
+
+
 </style>

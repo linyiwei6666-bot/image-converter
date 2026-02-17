@@ -18,6 +18,14 @@ function handleFile(e) {
       <span>or click to browse</span>
     </div>
   </div>
+  <div class="seo-text">
+  <p>
+    Convert your images instantly using our free online image converter.
+    Support JPG, PNG, WEBP and more formats.
+    Fast, secure and no upload limits.
+  </p>
+</div>
+
 </template>
 
 <style scoped>
