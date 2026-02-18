@@ -21,8 +21,8 @@ import Footer from "../components/Footer.vue"
 
         <p>
           📧 Email:
-          <a href="mailto:support@yourdomain.com">
-            support@yourdomain.com
+          <a href="nasa07383@gmail.com">
+            nasa07383@gmail.com
           </a>
         </p>
 
