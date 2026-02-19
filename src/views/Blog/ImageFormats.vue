@@ -7,102 +7,212 @@ import Footer from "../../components/Footer.vue"
   <Navbar />
 
   <div class="container article">
-    <h1>Best Image Formats for Web: Complete Guide</h1>
+    <h1>Best Image Formats for Websites in 2025: Complete Guide to WEBP, PNG, JPG, AVIF and SVG</h1>
 
     <p>
-      Choosing the best image format for your website affects speed,
-      SEO rankings, and user experience.
-      In this complete guide, we compare JPG, PNG, WEBP, and other formats.
+      Choosing the best image format for your website directly impacts
+      page speed, SEO performance, Core Web Vitals, and user experience.
+      In 2025, modern image optimization is no longer optional —
+      it is essential for ranking higher in search engines.
     </p>
 
-    <h2>Why Image Format Matters</h2>
     <p>
-      Images often account for more than 50% of a webpage’s size.
-      Optimized formats reduce load time and improve performance.
+      This comprehensive guide compares the most important image formats used on websites:
+      WEBP, PNG, JPG (JPEG), AVIF, and SVG.
+      We analyze compression efficiency, quality, transparency,
+      browser support, SEO impact, and real-world usage scenarios.
     </p>
 
-    <h2>JPG (JPEG)</h2>
+    <h2>Why Image Format Matters for SEO</h2>
+
     <p>
-      JPG is ideal for photographs due to its efficient lossy compression.
+      Images often make up more than 50% of a webpage’s total size.
+      Large image files slow down loading times,
+      negatively affecting performance metrics such as:
     </p>
 
-    <h3>Best For</h3>
     <ul>
-      <li>Photos</li>
-      <li>Blog images</li>
-      <li>Social media</li>
+      <li>Largest Contentful Paint (LCP)</li>
+      <li>First Contentful Paint (FCP)</li>
+      <li>Cumulative Layout Shift (CLS)</li>
+      <li>Time to Interactive (TTI)</li>
     </ul>
 
-    <h2>PNG</h2>
     <p>
-      PNG provides lossless compression and supports transparency.
+      Google considers page speed a ranking factor.
+      Using optimized image formats reduces bandwidth usage,
+      improves mobile performance,
+      and increases search visibility.
     </p>
 
-    <h3>Best For</h3>
+    <h2>1. WEBP – The Modern Web Standard</h2>
+
+    <p>
+      WEBP is a next-generation image format developed by Google.
+      It supports both lossy and lossless compression,
+      transparency (alpha channel),
+      and animation.
+    </p>
+
+    <h3>Advantages of WEBP</h3>
+    <ul>
+      <li>25–35% smaller than JPG and PNG</li>
+      <li>Supports transparency like PNG</li>
+      <li>Supports animation like GIF</li>
+      <li>Excellent for SEO and performance</li>
+    </ul>
+
+    <h3>Best Use Cases</h3>
+    <ul>
+      <li>Blog images</li>
+      <li>Ecommerce product photos</li>
+      <li>Landing page graphics</li>
+      <li>Image-heavy websites</li>
+    </ul>
+
+    <h2>2. PNG – Lossless and Reliable</h2>
+
+    <p>
+      PNG (Portable Network Graphics) is a lossless image format
+      known for high-quality output and transparency support.
+    </p>
+
+    <h3>Advantages of PNG</h3>
+    <ul>
+      <li>No quality loss</li>
+      <li>Excellent for text-heavy graphics</li>
+      <li>Universal browser compatibility</li>
+    </ul>
+
+    <h3>Disadvantages</h3>
+    <ul>
+      <li>Larger file size compared to WEBP</li>
+      <li>Not ideal for photographic images</li>
+    </ul>
+
+    <h2>3. JPG (JPEG) – Traditional Photography Format</h2>
+
+    <p>
+      JPG (JPEG) is one of the oldest and most widely used image formats.
+      It uses lossy compression to significantly reduce file size.
+    </p>
+
+    <h3>Advantages of JPG</h3>
+    <ul>
+      <li>Small file size for photos</li>
+      <li>Great for complex color images</li>
+      <li>Supported everywhere</li>
+    </ul>
+
+    <h3>Limitations</h3>
+    <ul>
+      <li>No transparency support</li>
+      <li>Quality loss after repeated editing</li>
+    </ul>
+
+    <h2>4. AVIF – Next Generation High Compression Format</h2>
+
+    <p>
+      AVIF is one of the newest image formats,
+      offering even better compression than WEBP.
+      It provides high image quality at extremely small file sizes.
+    </p>
+
+    <h3>Advantages of AVIF</h3>
+    <ul>
+      <li>Up to 50% smaller than JPG</li>
+      <li>High dynamic range support</li>
+      <li>Excellent compression efficiency</li>
+    </ul>
+
+    <h3>Challenges</h3>
+    <ul>
+      <li>Slower encoding time</li>
+      <li>Not fully supported in all older browsers</li>
+    </ul>
+
+    <h2>5. SVG – Best for Logos and Icons</h2>
+
+    <p>
+      SVG (Scalable Vector Graphics) is a vector-based format.
+      Unlike pixel-based images,
+      SVG files scale infinitely without losing quality.
+    </p>
+
+    <h3>Best Use Cases</h3>
     <ul>
       <li>Logos</li>
       <li>Icons</li>
-      <li>Graphics with text</li>
+      <li>UI elements</li>
+      <li>Simple illustrations</li>
     </ul>
 
-    <h2>WEBP</h2>
+    <h2>Image Format Comparison Table (Summary)</h2>
+
     <p>
-      WEBP offers both lossy and lossless compression with smaller file sizes.
+      Quick comparison overview:
     </p>
 
-    <h3>Best For</h3>
     <ul>
-      <li>Modern websites</li>
-      <li>Performance optimization</li>
-      <li>Responsive images</li>
+      <li><strong>Best for SEO:</strong> WEBP / AVIF</li>
+      <li><strong>Best for Transparency:</strong> PNG / WEBP</li>
+      <li><strong>Best for Photos:</strong> JPG / WEBP</li>
+      <li><strong>Best for Logos:</strong> SVG</li>
+      <li><strong>Smallest File Size:</strong> AVIF</li>
     </ul>
 
-    <h2>SVG</h2>
+    <h2>Real-World Performance Example</h2>
+
     <p>
-      SVG is a vector format ideal for logos and scalable graphics.
+      Suppose your homepage contains 30 images averaging 250KB each in JPG format.
+      Total size: 7.5MB.
     </p>
 
-    <h2>Comparison Table (Summary)</h2>
-
-    <h3>Smallest File Size</h3>
-    <p>WEBP</p>
-
-    <h3>Best Compatibility</h3>
-    <p>JPG and PNG</p>
-
-    <h3>Transparency Support</h3>
-    <p>PNG and WEBP</p>
-
-    <h2>SEO and Page Speed Considerations</h2>
     <p>
-      Google considers page speed as a ranking factor.
-      Choosing the right image format improves loading time.
+      Converting those images to WEBP could reduce total size to about 5MB.
+      Using AVIF might reduce it further to 3.5–4MB.
+      This can dramatically improve mobile performance and SEO ranking.
     </p>
-
-    <h2>How to Choose the Right Format</h2>
-    <ul>
-      <li>Use JPG for photos</li>
-      <li>Use PNG for design elements</li>
-      <li>Use WEBP for modern optimization</li>
-      <li>Use SVG for scalable graphics</li>
-    </ul>
 
     <h2>Frequently Asked Questions</h2>
 
-    <h3>What is the best format for websites?</h3>
+    <h3>What is the best image format for SEO in 2025?</h3>
     <p>
-      WEBP is often the best balance between quality and size.
+      WEBP and AVIF are currently the best formats for SEO
+      because they offer superior compression and faster loading speeds.
     </p>
 
-    <h3>Is PNG better than JPG?</h3>
+    <h3>Should I replace all JPG images with WEBP?</h3>
     <p>
-      For graphics, yes. For photos, JPG is usually better.
+      For modern websites, yes.
+      However, always keep fallback formats if supporting older browsers.
     </p>
 
-    <h2>Conclusion</h2>
+    <h3>Is PNG outdated?</h3>
     <p>
-      The best image format depends on your use case.
-      For modern web performance, WEBP is leading the way.
+      PNG is not outdated,
+      but it is less efficient compared to modern formats.
+    </p>
+
+    <h2>Final Recommendation</h2>
+
+    <p>
+      For most modern websites in 2025,
+      the optimal strategy is:
+    </p>
+
+    <ul>
+      <li>Use WEBP as default delivery format</li>
+      <li>Use AVIF where maximum compression is required</li>
+      <li>Use SVG for logos and icons</li>
+      <li>Keep PNG for editing and design workflows</li>
+    </ul>
+
+    <p>
+      Image optimization is one of the fastest ways
+      to improve website performance and search engine rankings.
+      Choosing the right format is not just a technical decision —
+      it is a strategic SEO advantage.
     </p>
   </div>
 
