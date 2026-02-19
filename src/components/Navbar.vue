@@ -7,6 +7,7 @@
       <nav class="nav-links">
         <router-link to="/">Home</router-link>
         <router-link to="/convert">Converter</router-link>
+        <router-link to="/blog">Blog</router-link>
         <router-link to="/about">About</router-link>
         <router-link to="/privacy">Privacy</router-link>
         <router-link to="/contact">Contact</router-link>

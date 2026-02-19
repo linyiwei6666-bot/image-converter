@@ -5,6 +5,11 @@ import About from '../views/About.vue'
 import Privacy from '../views/Privacy.vue'
 import Contact from '../views/Contact.vue'
 
+import Blog from "../views/Blog.vue"
+import JpgToPng from "../views/Blog/JpgToPng.vue"
+import WebpVsPng from '../views/Blog/WebpVsPng.vue'
+import ImageFormats from '../views/Blog/ImageFormats.vue'
+
 const routes = [
   { 
     path: '/', 
@@ -35,6 +40,12 @@ const routes = [
   { path: '/about', component: About, meta: { title: 'About Us - Free Image Converter Tool' } },
   { path: '/privacy', component: Privacy, meta: { title: 'Privacy Policy - Image Converter' } },
   { path: '/contact', component: Contact, meta: { title: 'Contact Us - Image Converter' } },
+
+  //blog
+  { path: "/blog", component: Blog },
+  { path: "/blog/jpg-to-png", component: JpgToPng },
+  { path: "/blog/webp-vs-png", component: WebpVsPng },
+  { path: "/blog/image-formats", component: ImageFormats },
 ]
 
 const router = createRouter({

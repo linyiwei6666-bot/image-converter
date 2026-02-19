@@ -56,4 +56,25 @@
     <priority>0.5</priority>
   </url>
 
+  <url>
+    <loc>https://imageconvert.website/blog</loc>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://imageconvert.website/blog/image-formats</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://imageconvert.website/blog/webp-vs-png</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://imageconvert.website/blog/jpg-to-png</loc>
+    <priority>0.5</priority>
+  </url>
+  
+
 </urlset>

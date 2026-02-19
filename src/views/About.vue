@@ -10,58 +10,63 @@ import Footer from "../components/Footer.vue"
     <h1>About ImageConverter</h1>
 
     <section>
-      <h2>Our Mission</h2>
+      <h2>Who We Are</h2>
       <p>
-        ImageConverter was created to provide a simple, secure,
-        and efficient way to convert image formats online.
-        Our goal is to make image conversion accessible to everyone
-        without requiring software installation or registration.
+        ImageConverter is an independent online tool designed to make
+        image format conversion simple, fast, and secure. We focus on
+        providing a lightweight web-based solution that works entirely
+        inside modern browsers without requiring software installation.
       </p>
     </section>
 
     <section>
-      <h2>Why We Built This Tool</h2>
+      <h2>How Our Technology Works</h2>
       <p>
-        Many online image converters require users to upload files
-        to external servers, which may raise privacy concerns.
-        We believe users should have full control over their data.
+        Unlike traditional image converters that upload files to remote servers,
+        our platform uses modern browser technologies such as HTML5 Canvas
+        to process images locally on your device.
       </p>
 
       <p>
-        That is why our tool processes images directly in your browser.
-        Your files never leave your device, ensuring maximum privacy
-        and fast performance.
-      </p>
-    </section>
-
-    <section>
-      <h2>What We Offer</h2>
-      <ul>
-        <li>✔ Free JPG, PNG, and WEBP conversion</li>
-        <li>✔ Fast browser-based processing</li>
-        <li>✔ No file uploads or storage</li>
-        <li>✔ Simple and clean user interface</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Our Commitment</h2>
-      <p>
-        We are committed to maintaining a lightweight,
-        easy-to-use image conversion tool that respects
-        user privacy and delivers reliable performance.
-      </p>
-
-      <p>
-        We continuously improve the website to enhance
-        usability, performance, and compatibility with modern browsers.
+        This means your files never leave your computer.
+        The conversion happens directly in your browser,
+        ensuring maximum privacy, security, and faster performance.
       </p>
     </section>
 
     <section>
-      <h2>Contact</h2>
+      <h2>Why Privacy Matters</h2>
       <p>
-        If you have feedback or suggestions, please visit our
+        We understand that many users convert personal images,
+        work-related graphics, or sensitive content.
+        For this reason, we built our tool with a privacy-first approach.
+      </p>
+
+      <p>
+        No image uploads, no file storage, and no tracking of image content.
+        Your data stays entirely under your control.
+      </p>
+    </section>
+
+    <section>
+      <h2>Our Vision</h2>
+      <p>
+        Our goal is to build a reliable and accessible online image
+        conversion platform that supports modern web standards,
+        improves website performance, and simplifies digital workflows.
+      </p>
+
+      <p>
+        We continuously improve the platform to ensure compatibility
+        with major browsers including Chrome, Edge, and Firefox.
+      </p>
+    </section>
+
+    <section>
+      <h2>Contact and Feedback</h2>
+      <p>
+        We value user feedback and are committed to improving the service.
+        If you have suggestions, questions, or feature requests, please visit our
         <router-link to="/contact" class="contact-link">
           Contact page
         </router-link>.

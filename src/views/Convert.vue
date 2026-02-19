@@ -22,11 +22,55 @@ const titleMap = {
   "jpg-to-webp": "JPG to WEBP Converter",
   "webp-to-jpg": "WEBP to JPG Converter",
 }
+const description = ref("")
+
+const descriptionMap = {
+  "jpg-to-png": `
+    This tool allows you to convert JPG images into PNG format.
+    PNG supports transparency and is ideal for graphics,
+    logos, and images requiring higher quality preservation.
+  `,
+  "png-to-jpg": `
+    Convert PNG images to JPG format to reduce file size.
+    JPG is perfect for photographs and web usage
+    where smaller image size improves loading speed.
+  `,
+  "png-to-webp": `
+    Convert PNG to WEBP to significantly reduce file size
+    while maintaining high visual quality.
+    WEBP is recommended for modern websites.
+  `,
+  "webp-to-png": `
+    Convert WEBP images back to PNG format
+    when compatibility with older systems is required.
+  `,
+  "jpg-to-webp": `
+    Convert JPG images into WEBP format
+    for better compression and improved website performance.
+  `,
+  "webp-to-jpg": `
+    Convert WEBP images into JPG format
+    for wider compatibility across devices and platforms.
+  `,
+}
+
 
 function updatePageTitle(path) {
   const key = Object.keys(titleMap).find(k => path.includes(k))
-  pageTitle.value = key ? titleMap[key] : "Free Online Image Converter"
+
+  if (key) {
+    pageTitle.value = titleMap[key]
+    description.value = descriptionMap[key]
+  } else {
+    pageTitle.value = "Free Online Image Converter"
+    description.value = `
+      Our online image converter allows you to convert
+      JPG, PNG, and WEBP images directly in your browser.
+      Fast, secure, and completely free.
+    `
+  }
 }
+
 
 onMounted(() => updatePageTitle(route.path))
 watch(() => route.path, (newPath) => updatePageTitle(newPath), { immediate: true })
@@ -92,6 +136,43 @@ function closeModal() { showModal.value = false }
     <UploadBox @file-selected="handleFile" />
 
     <ConvertOptions @convert="convertImage" />
+    <section class="route-description">
+      <h2>About This Conversion</h2>
+      <p>{{ description }}</p>
+    </section>
+
+    <section class="convert-content">
+      <h2>How to Convert Images Online</h2>
+
+      <p>
+        Our online image converter allows you to quickly change image formats
+        between JPG, PNG, and WEBP directly in your browser.
+        Simply upload your file, select your desired format,
+        and download the converted image instantly.
+      </p>
+
+      <p>
+        Image format conversion is useful when optimizing images for websites,
+        reducing file size, or improving compatibility across platforms.
+        For example, WEBP offers better compression for web performance,
+        while PNG supports transparency for graphics and logos.
+      </p>
+
+      <p>
+        Unlike traditional tools that require server uploads,
+        our converter processes files locally in your browser.
+        This ensures maximum privacy and security for your images.
+      </p>
+
+      <h2>Supported Image Formats</h2>
+
+      <ul>
+        <li><strong>JPG (JPEG)</strong> – Best for photographs and compressed images.</li>
+        <li><strong>PNG</strong> – Ideal for graphics and transparent backgrounds.</li>
+        <li><strong>WEBP</strong> – Modern format optimized for web performance.</li>
+      </ul>
+    </section>
+
 
 
     <!-- 页面广告位 ：主区域底部 -->
@@ -379,6 +460,40 @@ function closeModal() { showModal.value = false }
   font-size: 18px;
   font-weight: 600;
 }
+
+.convert-content {
+  margin-top: 60px;
+  line-height: 1.6;
+}
+
+.convert-content h2 {
+  margin-bottom: 15px;
+}
+
+.convert-content p {
+  margin-bottom: 16px;
+  color: var(--gray);
+}
+
+.convert-content ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.route-description {
+  margin-top: 60px;
+  line-height: 1.6;
+}
+
+.route-description h2 {
+  margin-bottom: 15px;
+}
+
+.route-description p {
+  color: var(--gray);
+}
+
+
 
 
 </style>

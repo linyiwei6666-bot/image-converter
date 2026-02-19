@@ -84,6 +84,45 @@ import Footer from "../components/Footer.vue"
       </p>
     </section>
 
+    <section class="extended-content">
+      <h2>Understanding Image Formats: JPG vs PNG vs WEBP</h2>
+
+      <p>
+        JPG (JPEG) is one of the most widely used image formats for photographs.
+        It provides excellent compression and smaller file sizes, making it ideal
+        for websites and social media platforms. However, it does not support
+        transparency.
+      </p>
+
+      <p>
+        PNG is commonly used for graphics, logos, and images that require
+        transparent backgrounds. It preserves image quality but typically results
+        in larger file sizes compared to JPG.
+      </p>
+
+      <p>
+        WEBP is a modern image format developed for web optimization.
+        It offers superior compression while maintaining high visual quality.
+        Many websites use WEBP to improve loading speed and SEO performance.
+      </p>
+
+      <h2>When Should You Convert Image Formats?</h2>
+
+      <p>
+        You may need to convert image formats when optimizing your website,
+        reducing storage space, improving compatibility across platforms,
+        or enhancing page speed performance. Converting images can
+        significantly improve user experience and search engine rankings.
+      </p>
+
+      <p>
+        Our browser-based converter allows you to safely transform images
+        without uploading them to any server, ensuring complete privacy
+        and instant results.
+      </p>
+    </section>
+
+
     <!-- FAQ -->
     <section class="faq">
       <h2>Frequently Asked Questions</h2>
@@ -227,4 +266,19 @@ import Footer from "../components/Footer.vue"
   color: var(--gray);
   font-size: 14px;
 }
+
+.extended-content {
+  margin-bottom: 80px;
+}
+
+.extended-content h2 {
+  margin-bottom: 20px;
+}
+
+.extended-content p {
+  margin-bottom: 16px;
+  color: var(--gray);
+  line-height: 1.6;
+}
+
 </style>
