@@ -1,10 +1,11 @@
 <script setup>
-import { ref, watch, onMounted } from "vue"
+import { ref, computed } from "vue"
 import { useRoute } from "vue-router"
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
 import UploadBox from "../components/UploadBox.vue"
 import ConvertOptions from "../components/ConvertOptions.vue"
+import { useHead } from "@vueuse/head" // 导入 useHead
 
 const route = useRoute()
 const selectedFile = ref(null)
@@ -12,7 +13,7 @@ const showModal = ref(false)
 const success = ref(false)
 const resultUrl = ref(null)
 const isLoading = ref(false)
-const pageTitle = ref("Free Online Image Converter")
+// 1. 将数据映射提取出来（保持不变或进一步丰富）
 
 const titleMap = {
   "jpg-to-png": "JPG to PNG Converter",
@@ -22,59 +23,100 @@ const titleMap = {
   "jpg-to-webp": "JPG to WEBP Converter",
   "webp-to-jpg": "WEBP to JPG Converter",
 }
-const description = ref("")
+
 
 const descriptionMap = {
   "jpg-to-png": `
-    This tool allows you to convert JPG images into PNG format.
-    PNG supports transparency and is ideal for graphics,
-    logos, and images requiring higher quality preservation.
+    Looking to preserve image quality or add transparency? Our JPG to PNG converter is the perfect solution. 
+    While JPG uses lossy compression that can degrade quality over time, PNG (Portable Network Graphics) offers 
+    lossless compression, ensuring every pixel remains crisp. This conversion is essential for designers 
+    who need to remove backgrounds or work with logos and icons that require a transparent layer. 
+    By processing your files directly in your browser using Vue 3 technology, we ensure your data never 
+    leaves your device, providing 100% privacy and lightning-fast results.
   `,
+  
   "png-to-jpg": `
-    Convert PNG images to JPG format to reduce file size.
-    JPG is perfect for photographs and web usage
-    where smaller image size improves loading speed.
+    Need to reduce your image file size for faster web loading? Converting PNG to JPG is one of the most effective 
+    ways to optimize digital photos. PNG files are often unnecessarily large for standard photography. 
+    By switching to JPG (Joint Photographic Experts Group), you can significantly decrease the file footprint 
+    without noticeable loss in visual quality. This is ideal for bloggers, social media managers, and 
+    web developers aiming to improve their site's Core Web Vitals and SEO performance. Our tool handles 
+    the compression locally, so you don't have to worry about bandwidth or data security.
   `,
+
   "png-to-webp": `
-    Convert PNG to WEBP to significantly reduce file size
-    while maintaining high visual quality.
-    WEBP is recommended for modern websites.
+    Take your website's performance to the next level by converting PNG to WebP. WebP is a modern, 
+    next-generation image format developed by Google that provides superior lossless and lossy compression. 
+    On average, WebP images are 26% smaller than PNGs while maintaining the same high-quality transparency. 
+    This conversion is a "must-have" for modern SEO, as smaller image files lead to faster PageSpeed scores. 
+    Whether you are building a professional portfolio or an e-commerce store, our browser-based converter 
+    makes it easy to adopt the latest web standards instantly without any software installation.
   `,
+
   "webp-to-png": `
-    Convert WEBP images back to PNG format
-    when compatibility with older systems is required.
+    Encountering compatibility issues with WebP files? While WebP is great for the web, many older 
+    image editors, operating systems, and professional printing services still don't fully support it. 
+    Converting WebP back to PNG allows you to regain full editability and lossless quality. 
+    This is especially useful for graphic designers who need to import web assets into software like 
+    older versions of Photoshop or Illustrator. Our tool ensures that the conversion process 
+    remains high-fidelity, giving you a clean, uncompressed PNG file ready for any professional project.
   `,
+
   "jpg-to-webp": `
-    Convert JPG images into WEBP format
-    for better compression and improved website performance.
+    Upgrade your image library with our JPG to WebP converter. As Google continues to prioritize 
+    mobile-first indexing and fast loading speeds, switching your standard JPG photos to the 
+    modern WebP format is a smart SEO move. WebP offers 25-34% smaller file sizes compared to 
+    equivalent JPG images, meaning your pages will load faster and consume less data for your users. 
+    Our tool utilizes the power of your browser's local processing to handle the conversion, 
+    meaning no waiting for server uploads and no risk to your personal photo privacy.
   `,
+
   "webp-to-jpg": `
-    Convert WEBP images into JPG format
-    for wider compatibility across devices and platforms.
-  `,
+    The most universal way to share your photos is by converting WebP to JPG. While WebP is 
+    efficient, it can sometimes be a headache when trying to upload images to certain social media 
+    platforms, online forms, or viewing them on older mobile devices. JPG remains the world's 
+    most compatible image format. By using our converter, you can quickly transform any WebP file 
+    into a standard JPG that works everywhere—from email attachments to digital photo frames. 
+    Best of all, you can adjust the quality settings during conversion to find the perfect 
+    balance between file size and visual clarity.
+  `
 }
 
 
-function updatePageTitle(path) {
-  const key = Object.keys(titleMap).find(k => path.includes(k))
-
+// 2. 使用计算属性获取当前页面的 SEO 信息
+const currentSeo = computed(() => {
+  const key = Object.keys(titleMap).find(k => route.path.includes(k))
   if (key) {
-    pageTitle.value = titleMap[key]
-    description.value = descriptionMap[key]
-  } else {
-    pageTitle.value = "Free Online Image Converter"
-    description.value = `
-      Our online image converter allows you to convert
-      JPG, PNG, and WEBP images directly in your browser.
-      Fast, secure, and completely free.
-    `
+    return {
+      title: titleMap[key],
+      desc: descriptionMap[key]
+    }
   }
-}
+  return {
+    title: "Free Online Image Converter - JPG, PNG, WEBP",
+    desc: "Convert images directly in your browser. Fast, secure, and free."
+  }
+})
 
+// 3. 【关键核心】将信息注入到 HTML 的 <head> 中
+useHead({
+  title: () => currentSeo.value.title,
+  meta: [
+    {
+      name: 'description',
+      content: () => currentSeo.value.desc,
+    },
+    // 增加 Open Graph 标签，方便在社交媒体（X, Facebook）分享
+    { property: 'og:title', content: () => currentSeo.value.title },
+    { property: 'og:description', content: () => currentSeo.value.desc },
+  ],
+})
 
-onMounted(() => updatePageTitle(route.path))
-watch(() => route.path, (newPath) => updatePageTitle(newPath), { immediate: true })
+// 页面内部使用的变量可以关联到计算属性
+const pageTitle = computed(() => currentSeo.value.title)
+const description = computed(() => currentSeo.value.desc)
 
+// handleFile, convertImage 等逻辑保持不变...
 function handleFile(file) { selectedFile.value = file }
 
 function convertImage(options) {

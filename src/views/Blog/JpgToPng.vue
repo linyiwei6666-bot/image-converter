@@ -1,6 +1,13 @@
 <script setup>
 import Navbar from "../../components/Navbar.vue"
 import Footer from "../../components/Footer.vue"
+import { useHead } from '@vueuse/head'
+useHead({
+  title: 'How to Convert JPG to PNG Online (Complete Guide)',
+  meta: [{ name: 'description', 
+           content: 'Learn the technical differences between JPG and PNG and how to convert them safely in your browser.' 
+          }]
+})
 </script>
 
 <template>

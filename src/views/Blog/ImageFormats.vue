@@ -1,6 +1,18 @@
 <script setup>
 import Navbar from "../../components/Navbar.vue"
 import Footer from "../../components/Footer.vue"
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Understanding Web Image Formats: JPG, PNG, and WebP Explained',
+  meta: [
+    { 
+      name: 'description', 
+      content: 'Discover the differences between the most common image formats used today. Our guide covers when to use JPG for photos, PNG for graphics, and WebP for ultimate web performance.' 
+    },
+    { property: 'og:title', content: 'Best Image Formats for the Web in 2026' }
+  ]
+})
 </script>
 
 <template>

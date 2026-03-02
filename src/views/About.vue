@@ -1,121 +1,132 @@
 <script setup>
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'About Us - Privacy-First Image Conversion Technology',
+  meta: [
+    { name: 'description', content: 'Learn about ImageConverter, our browser-based image processing technology, and our commitment to user privacy and web performance.' }
+  ]
+})
 </script>
 
 <template>
   <Navbar />
 
   <div class="container about">
-    <h1>About ImageConverter</h1>
+    <div class="content-wrapper">
+      <h1>About ImageConverter</h1>
 
-    <section>
-      <h2>Who We Are</h2>
-      <p>
-        ImageConverter is an independent online tool designed to make
-        image format conversion simple, fast, and secure. We focus on
-        providing a lightweight web-based solution that works entirely
-        inside modern browsers without requiring software installation.
-      </p>
-    </section>
+      <section>
+        <h2>Our Mission: Privacy & Performance</h2>
+        <p>
+          ImageConverter was founded with a single mission: to provide a high-performance, privacy-first alternative to traditional online image converters. In an era where data privacy is often compromised, we believe that simple digital tasks like image conversion should not require users to sacrifice their personal or professional data.
+        </p>
+      </section>
 
-    <section>
-      <h2>How Our Technology Works</h2>
-      <p>
-        Unlike traditional image converters that upload files to remote servers,
-        our platform uses modern browser technologies such as HTML5 Canvas
-        to process images locally on your device.
-      </p>
+      <section>
+        <h2>Next-Generation Browser Technology</h2>
+        <p>
+          Our platform leverages the power of modern <strong>Client-Side Processing</strong>. By utilizing advanced browser APIs like <strong>HTML5 Canvas</strong> and <strong>Blob objects</strong>, we handle the heavy lifting of image re-encoding directly on your local CPU.
+        </p>
+        
+        <div class="tech-highlight">
+          <p><strong>The technical benefits of our approach include:</strong></p>
+          <ul>
+            <li><strong>Zero Server Latency:</strong> Since no upload is required, processing starts instantly regardless of your internet speed.</li>
+            <li><strong>Data Integrity:</strong> Your original files remain untouched and reside exclusively within your local memory (RAM).</li>
+            <li><strong>Unlimited Access:</strong> We don't have to pay for massive server bandwidth, so we can offer our tool for free without aggressive limits.</li>
+          </ul>
+        </div>
+      </section>
 
-      <p>
-        This means your files never leave your computer.
-        The conversion happens directly in your browser,
-        ensuring maximum privacy, security, and faster performance.
-      </p>
-    </section>
+      <section>
+        <h2>Why We Are Different</h2>
+        <p>
+          Most online tools act as a "black box" where you upload a file and hope for the best. ImageConverter operates with total transparency. We don't use tracking scripts on your image content, and we don't store "previews" or "thumbnails" on any remote database. 
+        </p>
+        <p>
+          Our tool is optimized for <strong>Core Web Vitals</strong>, ensuring that the interface is responsive and stable across all devices, from high-end desktops to mobile smartphones.
+        </p>
+      </section>
 
-    <section>
-      <h2>Why Privacy Matters</h2>
-      <p>
-        We understand that many users convert personal images,
-        work-related graphics, or sensitive content.
-        For this reason, we built our tool with a privacy-first approach.
-      </p>
+      <section>
+        <h2>Our Vision for the Future</h2>
+        <p>
+          As web standards evolve, so do we. We are currently working on integrating <strong>WebAssembly (WASM)</strong> modules to support even more complex formats like AVIF and high-fidelity JPEG XL conversion. Our goal is to become the go-to resource for developers, designers, and everyday users who value speed and security.
+        </p>
+      </section>
 
-      <p>
-        No image uploads, no file storage, and no tracking of image content.
-        Your data stays entirely under your control.
-      </p>
-    </section>
-
-    <section>
-      <h2>Our Vision</h2>
-      <p>
-        Our goal is to build a reliable and accessible online image
-        conversion platform that supports modern web standards,
-        improves website performance, and simplifies digital workflows.
-      </p>
-
-      <p>
-        We continuously improve the platform to ensure compatibility
-        with major browsers including Chrome, Edge, and Firefox.
-      </p>
-    </section>
-
-    <section>
-      <h2>Contact and Feedback</h2>
-      <p>
-        We value user feedback and are committed to improving the service.
-        If you have suggestions, questions, or feature requests, please visit our
-        <router-link to="/contact" class="contact-link">
-          Contact page
-        </router-link>.
-        We appreciate your input.
-      </p>
-    </section>
+      <section>
+        <h2>Get in Touch</h2>
+        <p>
+          We are a community-driven project and we thrive on user feedback. Whether you've found a bug, have a feature suggestion, or just want to say hello, we'd love to hear from you.
+        </p>
+        <p>
+          Visit our <router-link to="/contact" class="contact-link">Contact page</router-link> or reach out via email. Your input helps us build a better web, one pixel at a time.
+        </p>
+      </section>
+    </div>
   </div>
 
   <Footer />
 </template>
 
 <style scoped>
+/* 在你原来的基础上微调 */
 .about {
-  padding: 60px 0;
+  padding: 60px 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 h1 {
   margin-bottom: 30px;
+  font-size: 2.5rem;
+  color: #333;
 }
 
 section {
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 
 h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  border-left: 4px solid var(--primary); /* 增加一个小装饰提升视觉感 */
+  padding-left: 15px;
 }
 
 p {
-  color: var(--gray);
-  line-height: 1.6;
-  margin-bottom: 14px;
-  font-size: 14px;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.tech-highlight {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
 }
 
 ul {
-  list-style: none;
-  padding-left: 0;
+  list-style: disc;
+  padding-left: 20px;
 }
 
 li {
-  margin-bottom: 10px;
-  color: var(--gray);
-  font-size: 14px;
+  margin-bottom: 12px;
+  color: #555;
+  font-size: 15px;
 }
 
 .contact-link {
-  color: var(--primary);
+  color: #007bff;
+  text-decoration: none;
   font-weight: 600;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup>
+// App.vue
 </script>
 
 <template>

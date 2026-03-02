@@ -1,6 +1,18 @@
 <script setup>
 import Navbar from "../../components/Navbar.vue"
 import Footer from "../../components/Footer.vue"
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'WebP vs PNG: Which Image Format is Better for Your Website?',
+  meta: [
+    { 
+      name: 'description', 
+      content: 'A comprehensive comparison between WebP and PNG. Learn about compression efficiency, transparency support, and which format offers the best loading speed for modern web design.' 
+    },
+    { property: 'og:title', content: 'WebP vs PNG: The Ultimate Comparison' }
+  ]
+})
 </script>
 
 <template>

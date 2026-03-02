@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory  } from 'vue-router'
 import Home from '../views/Home.vue'
 import Convert from '../views/Convert.vue'
 import About from '../views/About.vue'
@@ -48,14 +48,10 @@ const routes = [
   { path: "/blog/image-formats", component: ImageFormats },
 ]
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes,
-})
+//因为用了 ViteSSG，所以路由创建放在 main.js 中，index.js 只导出 routes 配置
+// const router = createRouter({
+//   history: createWebHashHistory(),
+//   routes,
+// })
 
-// 每次路由切换更新 title
-router.afterEach((to) => {
-  document.title = to.meta.title || 'Image Converter'
-})
-
-export default router
+export default routes
