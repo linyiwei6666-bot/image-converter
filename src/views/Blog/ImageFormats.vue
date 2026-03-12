@@ -18,7 +18,40 @@ useHead({
 <template>
   <Navbar />
 
+
+
+
   <div class="container article">
+
+      <div class="blog-internal-nav">
+        <div class="nav-card">
+          <div class="nav-content">
+            <h4>🛠️ Quick Image Tools</h4>
+            <p>Convert your images locally with 100% privacy. No server uploads required.</p>
+            <div class="nav-links">
+              <router-link to="/jpg-to-png" class="nav-btn">JPG to PNG</router-link>
+              <router-link to="/png-to-webp" class="nav-btn highlight">PNG to WebP</router-link>
+              <router-link to="/webp-to-jpg" class="nav-btn">WebP to JPG</router-link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="inline-cta">
+        <strong>Pro Tip:</strong> If you are looking to optimize your website speed, 
+        we recommend using our <router-link to="/png-to-webp">WebP Conversion Tool</router-link> 
+        to reduce file sizes by up to 30% instantly.
+      </p>
+      <div class="article-meta">
+          <span class="category">Technical Guide</span>
+          <span class="date">Updated: March 2026</span>
+        </div>
+      <div class="internal-ad-box">
+        <p><strong>Quick Tool:</strong> Skip the reading and 
+          <router-link to="/jpg-to-png">Convert JPG to PNG Online</router-link> 
+          privately now.
+        </p>
+      </div>
     <h1>Best Image Formats for Websites in 2025: Complete Guide to WEBP, PNG, JPG, AVIF and SVG</h1>
 
     <p>
@@ -81,6 +114,9 @@ useHead({
       <li>Landing page graphics</li>
       <li>Image-heavy websites</li>
     </ul>
+    <div class="cta-box">
+      Try our <router-link to="/jpg-to-webp">JPG to WebP Tool</router-link> to reduce file size by up to 30% locally.
+    </div>
 
     <h2>2. PNG – Lossless and Reliable</h2>
 
@@ -101,6 +137,10 @@ useHead({
       <li>Larger file size compared to WEBP</li>
       <li>Not ideal for photographic images</li>
     </ul>
+
+    <div class="cta-box">
+      Need transparency? Convert your assets using our <router-link to="/webp-to-png">WebP to PNG Tool</router-link>.
+    </div>
 
     <h2>3. JPG (JPEG) – Traditional Photography Format</h2>
 
@@ -297,4 +337,96 @@ h3 + p {
   border-radius: 8px;
   border: 1px solid #eee;
 }
+
+/* 统一内链组件样式 */
+.blog-internal-nav {
+  margin: 30px 0;
+  perspective: 1000px;
+}
+
+.nav-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-left: 5px solid #111;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.nav-content h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #111;
+}
+
+.nav-content p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 15px !important;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-btn {
+  background: #ffffff;
+  color: #111;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+.nav-btn.highlight {
+  background: #ff0000;
+  color: #fff;
+  border-color: #ff0000;
+}
+
+.nav-btn.highlight:hover {
+  background: #b30000;
+}
+
+.inline-cta {
+  background: #fff9db;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: 1px solid #ffe066;
+  font-size: 14px;
+  margin: 20px 0;
+}
+
+.inline-cta a {
+  color: #f08c00;
+  text-decoration: underline;
+  font-weight: bold;
+}
+.category { background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+
+
+.intro-box { font-size: 17px; color: #555; background: #fdfdfd; padding: 20px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 30px; }
+.internal-ad-box { background: #f0f7ff; padding: 15px; border-radius: 8px; border: 1px solid #d0e7ff; margin: 20px 0; }
+.use-case-card { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 15px 0; }
+.comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
+.comp-item { background: #fff; border: 1px solid #eee; padding: 15px; border-radius: 8px; }
+.steps-container { margin: 30px 0; }
+.step { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
+.step-num { background: #111; color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; font-weight: bold; }
+.security-highlight { background: #e8f5e9; border: 2px solid #c8e6c9; padding: 20px; border-radius: 12px; font-weight: 500; }
+.faq-box { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+.faq-box h3 { color: var(--primary); font-size: 18px; margin-bottom: 5px; }
+
+
+
 </style>

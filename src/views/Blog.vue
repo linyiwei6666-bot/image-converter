@@ -17,6 +17,21 @@ const posts = [
     title: "Best Image Formats for Web",
     path: "/blog/image-formats",
     description: "Understand the differences between JPG, PNG, and WEBP formats."
+  },
+  {
+    title: "The Ultimate Guide to WebP in 2026: Balancing Quality and SEO Performance",
+    path: "/blog/Ultimate-Guide-to-WebP",
+    description: "'Dive deep into the WebP format. Learn how predictive coding works, its impact on Core Web Vitals, and why browser-based conversion is the future of web optimization."
+  },
+  {
+    title: "AVIF vs WebP: The Future of Image Compression with WebAssembly",
+    path: "/blog/AVIF-vs-WebP",
+    description: "Is AVIF the new king of image formats? Explore the technical architecture of AVIF, browser support in 2026, and how WebAssembly is revolutionizing local image processing."
+  },
+  {
+    title: "Mastering Core Web Vitals: How Image Optimization Boosts SEO in 2026",
+    path: "/blog/Core-Web-Vitals",
+    description: "Discover how optimizing your images can significantly improve your website's Core Web Vitals and overall SEO performance in 2026."
   }
 ]
 </script>

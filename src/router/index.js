@@ -9,6 +9,9 @@ import Blog from "../views/Blog.vue"
 import JpgToPng from "../views/Blog/JpgToPng.vue"
 import WebpVsPng from '../views/Blog/WebpVsPng.vue'
 import ImageFormats from '../views/Blog/ImageFormats.vue'
+import UltimateGuideToWebP from '../views/Blog/UltimateGuidetoWebP.vue'
+import AVIFvsWebP from '../views/Blog/AVIFvsWebP.vue'
+import WebVitals from '../views/Blog/WebVitals.vue'
 
 const routes = [
   { 
@@ -46,6 +49,9 @@ const routes = [
   { path: "/blog/jpg-to-png", component: JpgToPng },
   { path: "/blog/webp-vs-png", component: WebpVsPng },
   { path: "/blog/image-formats", component: ImageFormats },
+  { path: "/blog/Ultimate-Guide-to-WebP", component: UltimateGuideToWebP },
+  { path: "/blog/AVIF-vs-WebP", component: AVIFvsWebP },
+  { path: "/blog/Core-Web-Vitals", component: WebVitals }
 ]
 
 //因为用了 ViteSSG，所以路由创建放在 main.js 中，index.js 只导出 routes 配置
