@@ -4,13 +4,15 @@ import Footer from "../../components/Footer.vue"
 import { useHead } from '@vueuse/head'
 
 useHead({
-  title: 'Understanding Web Image Formats: JPG, PNG, and WebP Explained',
+  title: 'JPG, PNG, WebP, AVIF, SVG — Which One Should You Actually Use?',
   meta: [
     { 
       name: 'description', 
-      content: 'Discover the differences between the most common image formats used today. Our guide covers when to use JPG for photos, PNG for graphics, and WebP for ultimate web performance.' 
+      content: 'After building an image converter and testing hundreds of real uploads, here\'s my honest breakdown of when each format actually makes sense — and when the "rules" are wrong.' 
     },
-    { property: 'og:title', content: 'Best Image Formats for the Web in 2026' }
+    { property: 'og:title', content: 'JPG vs PNG vs WebP vs AVIF: An Honest Guide from Someone Who Built a Converter' },
+    { property: 'og:description', content: 'After building an image converter and testing hundreds of real uploads, here\'s my honest breakdown of when each format actually makes sense — and when the "rules" are wrong.' },
+    { name: 'robots', content: 'index, follow' }
   ]
 })
 </script>
@@ -18,415 +20,295 @@ useHead({
 <template>
   <Navbar />
 
-
-
-
   <div class="container article">
 
-      <div class="blog-internal-nav">
-        <div class="nav-card">
-          <div class="nav-content">
-            <h4>🛠️ Quick Image Tools</h4>
-            <p>Convert your images locally with 100% privacy. No server uploads required.</p>
-            <div class="nav-links">
-              <router-link to="/jpg-to-png" class="nav-btn">JPG to PNG</router-link>
-              <router-link to="/png-to-webp" class="nav-btn highlight">PNG to WebP</router-link>
-              <router-link to="/webp-to-jpg" class="nav-btn">WebP to JPG</router-link>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="article-meta">
+      <span class="category">Practical Guide</span>
+      <span class="date">March 2026 · 8 min read</span>
+    </div>
 
-      <p class="inline-cta">
-        <strong>Pro Tip:</strong> If you are looking to optimize your website speed, 
-        we recommend using our <router-link to="/png-to-webp">WebP Conversion Tool</router-link> 
-        to reduce file sizes by up to 30% instantly.
+    <h1>JPG, PNG, WebP, AVIF, SVG — Which One Should You Actually Use?</h1>
+
+    <p class="lede">
+      Every article about image formats says the same thing: "use WebP for photos, PNG for transparency, 
+      SVG for logos." That's not wrong, but it's so simplified it ends up being useless. 
+      I've spent the past year building and maintaining this converter, which means I've seen 
+      what formats people actually struggle with. Here's a more honest version of that guide.
+    </p>
+
+    <nav class="toc">
+      <p>In this article:</p>
+      <ol>
+        <li><a href="#why-writing">Why I'm writing this</a></li>
+        <li><a href="#jpg">JPG: still the workhorse, but with real limits</a></li>
+        <li><a href="#png">PNG: when quality cannot be compromised</a></li>
+        <li><a href="#webp">WebP: the format I recommend most</a></li>
+        <li><a href="#avif">AVIF: better than WebP, but with a catch</a></li>
+        <li><a href="#svg">SVG: not really an image format</a></li>
+        <li><a href="#decision">Quick decision guide for 2026</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="why-writing">Why I'm writing this at all</h2>
+    <p>
+      When I was building this tool, I had to make decisions about which conversions to support first. 
+      That forced me to actually understand the tradeoffs — not in a theoretical way, but in a 
+      "why does this 800KB PNG become 2MB when I convert it to JPG" kind of way. 
+      Some of what I found matched the conventional wisdom. Some of it didn't.
+    </p>
+    <p>
+      I also get a lot of questions through the contact page from people who are confused about 
+      which format to use. The same misunderstandings come up over and over. This article is 
+      my attempt to answer those questions once, properly.
+    </p>
+
+    <h2 id="jpg">JPG: Still the workhorse, but with real limits</h2>
+    <p>
+      JPG has been around since the early 90s and it's not going anywhere. For photographs — 
+      real-world scenes with lots of color variation, light, and texture — JPG still does 
+      a reasonable job at small file sizes. Your phone saves everything as JPG for a reason.
+    </p>
+    <p>
+      But there are two situations where JPG quietly destroys your images and most people 
+      don't notice until it's too late. First: screenshots and anything with text, flat colors, 
+      or sharp edges. JPG's compression algorithm was designed for photos, and it handles 
+      hard edges terribly — you get those fuzzy halos around text and blurry lines around buttons. 
+      Second: every time you re-save a JPG, it loses a little more quality. Open, edit, save, 
+      repeat five times and you'll start to see it degrade. Always keep an original in a 
+      lossless format (PNG or the original RAW) and export JPG only for the final version.
+    </p>
+
+    <div class="honest-box">
+      <h4>The question I get asked most about JPG</h4>
+      <p>
+        "I converted my PNG to JPG and the file got bigger — why?"
       </p>
-      <div class="article-meta">
-          <span class="category">Technical Guide</span>
-          <span class="date">Updated: March 2026</span>
+      <p>
+        This happens when the original PNG was a screenshot or a graphic with flat colors. 
+        PNG compresses those extremely well. JPG's algorithm actually struggles with them 
+        and can produce a larger file. If your PNG is already small, there's often no point 
+        converting it to JPG — you'll either get a bigger file or a worse-looking one.
+      </p>
+    </div>
+
+    <h2 id="png">PNG: Reach for this when quality cannot be compromised</h2>
+    <p>
+      PNG uses lossless compression, meaning the file that comes out is a perfect copy of 
+      what went in, just smaller. For photographs that's usually not worth the tradeoff — 
+      PNG photos are large. But for anything with text, UI elements, diagrams, logos, 
+      or screenshots, PNG is the right call. The edges stay sharp, the colors stay exact.
+    </p>
+    <p>
+      The other reason to use PNG is transparency. If you need a logo that sits cleanly 
+      on different backgrounds, or a UI element without a white box around it, PNG's 
+      alpha channel support is what makes that possible. JPG simply cannot do this — 
+      it doesn't have the concept of a transparent pixel.
+    </p>
+    <p>
+      One thing that surprised me: PNG files can often be reduced by 30–50% just by running 
+      them through a proper optimizer, without any visible quality change. The default PNG 
+      that comes out of Photoshop or a screenshot tool is usually not well-compressed. 
+      Our converter applies this optimization automatically.
+    </p>
+
+    <h2 id="webp">WebP: The format I recommend most often</h2>
+    <p>
+      If someone asks me "what format should I use for images on my website," WebP is almost 
+      always my answer. It handles everything reasonably well — photos, graphics, transparency, 
+      even animation. And it's typically 25–35% smaller than the equivalent JPG or PNG.
+    </p>
+    <p>
+      Browser support has been essentially universal for a few years now. In 2026, worrying 
+      about WebP compatibility is like worrying about whether browsers support CSS. There are 
+      still some edge cases — certain older Android WebViews, some email clients — but for 
+      any normal website, you're fine.
+    </p>
+    <p>
+      The one place WebP doesn't shine is when you need to share images with people who 
+      might open them in desktop software like Photoshop, Preview, or the default Windows 
+      photo viewer. Older versions of those apps don't support WebP. 
+      For web delivery, it's excellent. For files people will download and edit, 
+      stick with JPG or PNG.
+    </p>
+
+    <div class="nav-card">
+      <div class="nav-content">
+        <h4>🛠️ Try the conversions mentioned in this article</h4>
+        <div class="nav-links">
+          <router-link to="/jpg-to-webp" class="nav-btn">JPG → WebP</router-link>
+          <router-link to="/png-to-webp" class="nav-btn highlight">PNG → WebP</router-link>
+          <router-link to="/webp-to-jpg" class="nav-btn">WebP → JPG</router-link>
         </div>
-      <div class="internal-ad-box">
-        <p><strong>Quick Tool:</strong> Skip the reading and 
-          <router-link to="/jpg-to-png">Convert JPG to PNG Online</router-link> 
-          privately now.
-        </p>
       </div>
-    <h1>Best Image Formats for Websites in 2025: Complete Guide to WEBP, PNG, JPG, AVIF and SVG</h1>
-
-    <p>
-      Choosing the best image format for your website directly impacts
-      page speed, SEO performance, Core Web Vitals, and user experience.
-      In 2025, modern image optimization is no longer optional —
-      it is essential for ranking higher in search engines.
-    </p>
-
-    <p>
-      This comprehensive guide compares the most important image formats used on websites:
-      WEBP, PNG, JPG (JPEG), AVIF, and SVG.
-      We analyze compression efficiency, quality, transparency,
-      browser support, SEO impact, and real-world usage scenarios.
-    </p>
-
-    <h2>Why Image Format Matters for SEO</h2>
-
-    <p>
-      Images often make up more than 50% of a webpage’s total size.
-      Large image files slow down loading times,
-      negatively affecting performance metrics such as:
-    </p>
-
-    <ul>
-      <li>Largest Contentful Paint (LCP)</li>
-      <li>First Contentful Paint (FCP)</li>
-      <li>Cumulative Layout Shift (CLS)</li>
-      <li>Time to Interactive (TTI)</li>
-    </ul>
-
-    <p>
-      Google considers page speed a ranking factor.
-      Using optimized image formats reduces bandwidth usage,
-      improves mobile performance,
-      and increases search visibility.
-    </p>
-
-    <h2>1. WEBP – The Modern Web Standard</h2>
-
-    <p>
-      WEBP is a next-generation image format developed by Google.
-      It supports both lossy and lossless compression,
-      transparency (alpha channel),
-      and animation.
-    </p>
-
-    <h3>Advantages of WEBP</h3>
-    <ul>
-      <li>25–35% smaller than JPG and PNG</li>
-      <li>Supports transparency like PNG</li>
-      <li>Supports animation like GIF</li>
-      <li>Excellent for SEO and performance</li>
-    </ul>
-
-    <h3>Best Use Cases</h3>
-    <ul>
-      <li>Blog images</li>
-      <li>Ecommerce product photos</li>
-      <li>Landing page graphics</li>
-      <li>Image-heavy websites</li>
-    </ul>
-    <div class="cta-box">
-      Try our <router-link to="/jpg-to-webp">JPG to WebP Tool</router-link> to reduce file size by up to 30% locally.
     </div>
 
-    <h2>2. PNG – Lossless and Reliable</h2>
-
+    <h2 id="avif">AVIF: Better than WebP, but with a catch</h2>
     <p>
-      PNG (Portable Network Graphics) is a lossless image format
-      known for high-quality output and transparency support.
+      AVIF came out of video compression research and it shows — the compression is genuinely 
+      impressive, especially for photographs with smooth gradients and skin tones. In my testing, 
+      AVIF files are typically 40–50% smaller than equivalent JPGs for those kinds of images. 
+      WebP is closer to 25–35%.
+    </p>
+    <p>
+      So why isn't everyone using AVIF? Encoding speed. Converting an image to AVIF is 
+      significantly more CPU-intensive than converting to WebP. On a server processing thousands 
+      of images, that matters. In a browser, it can mean a multi-second wait for a single image. 
+      I've been working on integrating AVIF support into this converter but I'm still 
+      stress-testing the encoder — I'd rather take longer and ship something reliable.
+    </p>
+    <p>
+      For 2027, I expect AVIF to become the standard recommendation over WebP, as encoding 
+      tools get faster and browser adoption continues to grow. For now, WebP is the safer 
+      default for most people.
     </p>
 
-    <h3>Advantages of PNG</h3>
-    <ul>
-      <li>No quality loss</li>
-      <li>Excellent for text-heavy graphics</li>
-      <li>Universal browser compatibility</li>
-    </ul>
-
-    <h3>Disadvantages</h3>
-    <ul>
-      <li>Larger file size compared to WEBP</li>
-      <li>Not ideal for photographic images</li>
-    </ul>
-
-    <div class="cta-box">
-      Need transparency? Convert your assets using our <router-link to="/webp-to-png">WebP to PNG Tool</router-link>.
-    </div>
-
-    <h2>3. JPG (JPEG) – Traditional Photography Format</h2>
-
+    <h2 id="svg">SVG: Not really an image format, but let's talk about it</h2>
     <p>
-      JPG (JPEG) is one of the oldest and most widely used image formats.
-      It uses lossy compression to significantly reduce file size.
+      SVG is fundamentally different from the other formats here — it's not a grid of pixels, 
+      it's a set of drawing instructions. "Draw a circle at position X, fill it with this color." 
+      That means it scales to any size without losing quality, which makes it perfect for logos, 
+      icons, and illustrations.
+    </p>
+    <p>
+      SVG files are also often tiny — a simple icon might be 2KB as SVG versus 20KB as PNG. 
+      And because they're text-based, you can open them in a code editor, animate them with CSS, 
+      or modify colors without needing design software.
+    </p>
+    <p>
+      The limitation is that SVG is only for vector artwork. You can't save a photo as SVG — 
+      well, technically you can, but it becomes enormous and pointless. If someone sends you 
+      a logo as a JPG and asks you to convert it to SVG, what they probably actually want is 
+      a traced vector version. That's a different process — auto-tracing — and this converter 
+      doesn't do that (yet).
     </p>
 
-    <h3>Advantages of JPG</h3>
-    <ul>
-      <li>Small file size for photos</li>
-      <li>Great for complex color images</li>
-      <li>Supported everywhere</li>
-    </ul>
-
-    <h3>Limitations</h3>
-    <ul>
-      <li>No transparency support</li>
-      <li>Quality loss after repeated editing</li>
-    </ul>
-
-    <h2>4. AVIF – Next Generation High Compression Format</h2>
-
+    <h2 id="decision">A quick decision guide for 2026</h2>
     <p>
-      AVIF is one of the newest image formats,
-      offering even better compression than WEBP.
-      It provides high image quality at extremely small file sizes.
+      Rather than a comparison table, here's how I actually think about it:
     </p>
-
-    <h3>Advantages of AVIF</h3>
     <ul>
-      <li>Up to 50% smaller than JPG</li>
-      <li>High dynamic range support</li>
-      <li>Excellent compression efficiency</li>
+      <li><strong>Photo going on a website?</strong> Convert to WebP. If you have time and tools, try AVIF too.</li>
+      <li><strong>Screenshot or UI graphic?</strong> PNG. Don't touch JPG.</li>
+      <li><strong>Logo or icon?</strong> SVG if it was made in a vector tool. PNG otherwise.</li>
+      <li><strong>Image with a transparent background?</strong> WebP or PNG. Never JPG.</li>
+      <li><strong>Image someone will download and edit?</strong> PNG for graphics, JPG for photos. Skip WebP.</li>
+      <li><strong>Not sure?</strong> WebP. It's the safe middle ground.</li>
     </ul>
 
-    <h3>Challenges</h3>
-    <ul>
-      <li>Slower encoding time</li>
-      <li>Not fully supported in all older browsers</li>
-    </ul>
-
-    <h2>5. SVG – Best for Logos and Icons</h2>
-
+    <h2>The file size question people don't ask but should</h2>
     <p>
-      SVG (Scalable Vector Graphics) is a vector-based format.
-      Unlike pixel-based images,
-      SVG files scale infinitely without losing quality.
+      I see a lot of articles focused entirely on format choice, but the format is only part 
+      of the equation. A poorly compressed WebP can easily be larger than a well-compressed JPG. 
+      Quality settings matter enormously — going from quality 100 to quality 80 on a WebP often 
+      cuts the file in half with no visible difference.
     </p>
-
-    <h3>Best Use Cases</h3>
-    <ul>
-      <li>Logos</li>
-      <li>Icons</li>
-      <li>UI elements</li>
-      <li>Simple illustrations</li>
-    </ul>
-
-    <h2>Image Format Comparison Table (Summary)</h2>
-
     <p>
-      Quick comparison overview:
-    </p>
-
-    <ul>
-      <li><strong>Best for SEO:</strong> WEBP / AVIF</li>
-      <li><strong>Best for Transparency:</strong> PNG / WEBP</li>
-      <li><strong>Best for Photos:</strong> JPG / WEBP</li>
-      <li><strong>Best for Logos:</strong> SVG</li>
-      <li><strong>Smallest File Size:</strong> AVIF</li>
-    </ul>
-
-    <h2>Real-World Performance Example</h2>
-
-    <p>
-      Suppose your homepage contains 30 images averaging 250KB each in JPG format.
-      Total size: 7.5MB.
-    </p>
-
-    <p>
-      Converting those images to WEBP could reduce total size to about 5MB.
-      Using AVIF might reduce it further to 3.5–4MB.
-      This can dramatically improve mobile performance and SEO ranking.
+      When I built this converter, I spent a lot of time calibrating the default quality 
+      settings. The goal was: output that looks identical to the original at a meaningful 
+      reduction in file size. I settled on different defaults for different formats based 
+      on what I actually saw in output comparisons. It's not a setting you should have to 
+      think about.
     </p>
 
     <h2>Frequently Asked Questions</h2>
+    <div class="faq-wrapper">
+      <div class="faq-box">
+        <h3>Will switching to WebP actually help my SEO?</h3>
+        <p>Indirectly, yes. Google uses page speed as a ranking factor, and images are often the biggest contributor to page weight. Smaller images load faster, which improves Core Web Vitals scores. Whether that translates to meaningful ranking improvement depends on a lot of other factors, but it's one of the easiest wins available.</p>
+      </div>
+      <div class="faq-box">
+        <h3>Is PNG becoming obsolete?</h3>
+        <p>No. PNG still has its place — lossless compression, broad software compatibility, transparency support. WebP can do most of what PNG does, but you'd lose compatibility with editing software, and lossless WebP isn't always smaller than a well-optimized PNG anyway.</p>
+      </div>
+      <div class="faq-box">
+        <h3>Should I convert my entire image library to WebP?</h3>
+        <p>Keep your originals. Convert copies for web delivery. The number of times I've seen someone convert their only copy of a file to a lossy format and then regret it is not small. Originals in lossless format, web delivery in WebP.</p>
+      </div>
+      <div class="faq-box">
+        <h3>What will be the dominant format in 2027?</h3>
+        <p>My guess is AVIF slowly displaces WebP for photographs as encoding tools improve. SVG continues to grow for UI work. PNG stays around for lossless needs. JPG doesn't die — it just gets used less for new content.</p>
+      </div>
+    </div>
 
-    <h3>What is the best image format for SEO in 2025?</h3>
-    <p>
-      WEBP and AVIF are currently the best formats for SEO
-      because they offer superior compression and faster loading speeds.
-    </p>
+    <div class="closing-note">
+      <p>
+        If your situation doesn't fit neatly into any of the above, 
+        feel free to <router-link to="/contact">send me a message</router-link>. 
+        Specific questions are always more interesting than general ones.
+      </p>
+    </div>
 
-    <h3>Should I replace all JPG images with WEBP?</h3>
-    <p>
-      For modern websites, yes.
-      However, always keep fallback formats if supporting older browsers.
-    </p>
-
-    <h3>Is PNG outdated?</h3>
-    <p>
-      PNG is not outdated,
-      but it is less efficient compared to modern formats.
-    </p>
-
-    <h2>Final Recommendation</h2>
-
-    <p>
-      For most modern websites in 2025,
-      the optimal strategy is:
-    </p>
-
-    <ul>
-      <li>Use WEBP as default delivery format</li>
-      <li>Use AVIF where maximum compression is required</li>
-      <li>Use SVG for logos and icons</li>
-      <li>Keep PNG for editing and design workflows</li>
-    </ul>
-
-    <p>
-      Image optimization is one of the fastest ways
-      to improve website performance and search engine rankings.
-      Choosing the right format is not just a technical decision —
-      it is a strategic SEO advantage.
-    </p>
   </div>
 
   <Footer />
 </template>
 
 <style scoped>
-.article {
-  padding: 70px 0;
-  max-width: 900px;
-  margin: 0 auto;
-  background: #ffffff;
-}
+.article { padding: 70px 0; max-width: 860px; margin: 0 auto; color: #222; }
 
-h1 {
-  font-size: 32px;
-  margin-bottom: 25px;
-  color: #111;
-  position: relative;
-  padding-bottom: 15px;
-}
+.article-meta { margin-bottom: 24px; display: flex; gap: 16px; align-items: center; }
+.category { color: var(--primary); text-transform: uppercase; letter-spacing: 1.5px; font-size: 11px; font-weight: 700; }
+.date { color: #888; font-size: 13px; }
 
-h1::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 80px;
-  height: 4px;
-  background: var(--primary);
-}
+h1 { font-size: 32px; margin-bottom: 28px; line-height: 1.35; font-weight: 700; color: #111; }
+h2 { font-size: 22px; margin-top: 52px; margin-bottom: 18px; border-bottom: 1px solid #e8e8e8; padding-bottom: 10px; color: #111; }
+h3 { font-size: 16px; color: #111; margin-top: 0; margin-bottom: 10px; font-weight: 600; }
 
-h2 {
-  margin-top: 50px;
-  margin-bottom: 15px;
-  font-size: 20px;
-  color: #111;
-  padding-left: 14px;
-  border-left: 4px solid var(--primary);
-}
+p { font-size: 16px; line-height: 1.85; margin-bottom: 22px; color: #333; }
+ul { margin: 4px 0 28px 0; padding-left: 0; list-style: none; }
+li { margin-bottom: 12px; font-size: 15px; line-height: 1.7; color: #333; padding-left: 20px; position: relative; }
+li::before { content: "→"; position: absolute; left: 0; color: var(--primary); font-size: 13px; top: 2px; }
 
-h3 {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  color: var(--primary);
-  font-weight: 600;
-}
+.lede { font-size: 18px; line-height: 1.8; color: #444; border-left: 3px solid var(--primary); padding-left: 20px; margin-bottom: 44px; }
 
-p {
-  color: #444;
-  line-height: 1.8;
-  font-size: 15px;
-  margin-bottom: 18px;
+.honest-box {
+  background: #f7f9fc;
+  border: 1px solid #dde3ec;
+  border-radius: 10px;
+  padding: 28px 32px;
+  margin: 36px 0;
 }
-
-ul {
-  margin: 15px 0 25px 20px;
-}
-
-li {
-  margin-bottom: 10px;
-  font-size: 15px;
-  color: #444;
-}
-
-h3 + p {
-  background: #f9f9f9;
-  padding: 15px 18px;
-  border-radius: 8px;
-  border: 1px solid #eee;
-}
-
-/* 统一内链组件样式 */
-.blog-internal-nav {
-  margin: 30px 0;
-  perspective: 1000px;
-}
+.honest-box h4 { margin-top: 0; margin-bottom: 16px; font-size: 15px; color: #111; font-weight: 700; }
+.honest-box p { font-size: 15px; margin-bottom: 12px; color: #444; }
+.honest-box p:last-child { margin-bottom: 0; }
 
 .nav-card {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-left: 5px solid #111;
-  padding: 20px;
+  background: #f5f5f5;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  padding: 20px 24px;
+  margin: 36px 0;
+  border: 1px solid #e8e8e8;
 }
-
-.nav-content h4 {
-  margin: 0 0 10px 0;
-  font-size: 18px;
-  color: #111;
-}
-
-.nav-content p {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 15px !important;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
+.nav-content h4 { margin: 0 0 14px 0; font-size: 14px; color: #555; font-weight: 600; }
+.nav-links { display: flex; flex-wrap: wrap; gap: 10px; }
 .nav-btn {
-  background: #ffffff;
-  color: #111;
-  padding: 8px 16px;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: 4px;
+  padding: 8px 16px;
+  background: white;
   border: 1px solid #ddd;
-  transition: all 0.2s ease;
-}
-
-.nav-btn:hover {
-  background: #111;
-  color: #fff;
-  border-color: #111;
-}
-
-.nav-btn.highlight {
-  background: #ff0000;
-  color: #fff;
-  border-color: #ff0000;
-}
-
-.nav-btn.highlight:hover {
-  background: #b30000;
-}
-
-.inline-cta {
-  background: #fff9db;
-  padding: 12px 15px;
-  border-radius: 6px;
-  border: 1px solid #ffe066;
+  color: #333;
+  border-radius: 4px;
   font-size: 14px;
-  margin: 20px 0;
+  font-weight: 500;
 }
+.nav-btn.highlight { background: var(--primary); color: white; border-color: var(--primary); }
 
-.inline-cta a {
-  color: #f08c00;
-  text-decoration: underline;
-  font-weight: bold;
+.faq-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 16px; }
+.faq-box { background: #fafafa; border: 1px solid #ebebeb; border-radius: 8px; padding: 22px; }
+.faq-box h3 { font-size: 15px; color: #111; font-weight: 600; margin-bottom: 10px; }
+.faq-box p { font-size: 14px; line-height: 1.75; margin-bottom: 0; color: #555; }
+
+.closing-note {
+  margin-top: 52px;
+  padding: 24px 28px;
+  background: #fffbf0;
+  border-radius: 8px;
+  border: 1px solid #f0e4b0;
 }
-.category { background: var(--primary); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+.closing-note p { margin-bottom: 0; font-size: 15px; color: #555; }
 
-
-.intro-box { font-size: 17px; color: #555; background: #fdfdfd; padding: 20px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 30px; }
-.internal-ad-box { background: #f0f7ff; padding: 15px; border-radius: 8px; border: 1px solid #d0e7ff; margin: 20px 0; }
-.use-case-card { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 15px 0; }
-.comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0; }
-.comp-item { background: #fff; border: 1px solid #eee; padding: 15px; border-radius: 8px; }
-.steps-container { margin: 30px 0; }
-.step { display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start; }
-.step-num { background: #111; color: white; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; font-weight: bold; }
-.security-highlight { background: #e8f5e9; border: 2px solid #c8e6c9; padding: 20px; border-radius: 12px; font-weight: 500; }
-.faq-box { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-.faq-box h3 { color: var(--primary); font-size: 18px; margin-bottom: 5px; }
-
-
-
+@media (max-width: 640px) {
+  .faq-wrapper { grid-template-columns: 1fr; }
+  h1 { font-size: 26px; }
+}
 </style>

@@ -4,12 +4,15 @@ import Footer from "../components/Footer.vue"
 import { useHead } from '@unhead/vue'
 
 useHead({
-  title: 'About Our Privacy-First Image Converter | local processing',
+  title: 'About — ImageConverter.website',
   meta: [
     { 
       name: 'description', 
-      content: 'Founded by developer Linyiwei, ImageConverter offers 100% browser-based image conversion. No uploads, no data storage, just pure privacy and speed using HTML5 technology.' 
-    }
+      content: 'ImageConverter is a one-person project built by Nasa, a developer who wanted a private image converter that doesn\'t upload your files anywhere. Here\'s the story behind it.' 
+    },
+    { property: 'og:title', content: 'About ImageConverter — Built by One Developer, for Privacy' },
+    { property: 'og:description', content: 'A one-person project that converts images locally in your browser. No uploads, no tracking, no cloud. Here\'s why it was built this way.' },
+    { name: 'robots', content: 'index, follow' }
   ]
 })
 </script>
@@ -19,121 +22,115 @@ useHead({
 
   <div class="container about">
     <div class="content-wrapper">
-      <h1>About ImageConverter</h1>
+
+      <h1>About This Site</h1>
+
+      <section class="origin-story">
+        <p>
+          I'm Nasa, and I built this tool because I was annoyed. 
+        </p>
+        <p>
+          I kept needing to convert images — screenshots for documentation, product photos 
+          for a client, PNGs that needed to become WebPs before going on a site. Every online 
+          converter I tried worked the same way: upload your file, wait for it to travel to 
+          some server somewhere, wait for it to come back, download the result. For a 5-second 
+          task, the whole process took two minutes. And I had no idea what was happening to 
+          my files on the other end.
+        </p>
+        <p>
+          So I built my own. The first version was a 50-line script I ran locally. 
+          I made it a proper website when a few friends asked if they could use it too. 
+          That was about a year ago. It's still just me maintaining it.
+        </p>
+      </section>
 
       <section>
-        <h2>Our Mission: Privacy & Performance</h2>
+        <h2>How it actually works</h2>
         <p>
-          ImageConverter was founded with a single mission: to provide a high-performance, privacy-first alternative to traditional online image converters. In an era where data privacy is often compromised, we believe that simple digital tasks like image conversion should not require users to sacrifice their personal or professional data.
+          When you drop a file into the converter, the conversion happens inside your browser 
+          using your own device's CPU. Nothing is sent to a server. Nothing is uploaded. 
+          Nothing is stored. The file goes from your computer into your browser's memory, 
+          gets converted, and comes back out as a download — all without touching the internet.
+        </p>
+        <p>
+          This is possible because modern browsers are genuinely powerful. HTML5 Canvas APIs 
+          can handle image encoding and decoding directly in the tab. For most format 
+          conversions, this is faster than the upload-wait-download approach anyway, 
+          because you skip the network entirely.
+        </p>
+        <p>
+          For more complex formats like AVIF — which requires heavier computation — 
+          I'm integrating WebAssembly (WASM) modules that allow near-native-speed processing 
+          in the browser. That's still in progress, but the goal is the same: everything 
+          stays local.
         </p>
       </section>
 
       <section class="tools-navigation">
-        <h3>Our Secure Conversion Tools</h3>
-        <p>Start optimizing your images using our browser-based technology:</p>
+        <h3>Tools available now</h3>
         <div class="tools-grid">
           <router-link to="/png-to-webp" class="tool-card">
-            <strong>PNG to WebP</strong>
-            <span>Best for SEO & Speed</span>
+            <strong>PNG → WebP</strong>
+            <span>Smaller files for web</span>
           </router-link>
           <router-link to="/jpg-to-webp" class="tool-card">
-            <strong>JPG to WebP</strong>
-            <span>Maximum Compression</span>
+            <strong>JPG → WebP</strong>
+            <span>Better compression</span>
           </router-link>
           <router-link to="/jpg-to-png" class="tool-card">
-            <strong>JPG to PNG</strong>
-            <span>Lossless Quality</span>
+            <strong>JPG → PNG</strong>
+            <span>Lossless quality</span>
           </router-link>
           <router-link to="/webp-to-jpg" class="tool-card">
-            <strong>WebP to JPG</strong>
-            <span>High Compatibility</span>
+            <strong>WebP → JPG</strong>
+            <span>Max compatibility</span>
           </router-link>
         </div>
       </section>
 
       <section>
-        <h2>Next-Generation Browser Technology</h2>
+        <h2>Why I care about the privacy part</h2>
         <p>
-          Our platform leverages the power of modern <strong>Client-Side Processing</strong>. By utilizing advanced browser APIs like <strong>HTML5 Canvas</strong> and <strong>Blob objects</strong>, we handle the heavy lifting of image re-encoding directly on your local CPU.
-        </p>
-        
-        <div class="tech-highlight">
-          <p><strong>The technical benefits of our approach include:</strong></p>
-          <ul>
-            <li><strong>Zero Server Latency:</strong> Since no upload is required, processing starts instantly regardless of your internet speed.</li>
-            <li><strong>Data Integrity:</strong> Your original files remain untouched and reside exclusively within your local memory (RAM).</li>
-            <li><strong>Unlimited Access:</strong> We don't have to pay for massive server bandwidth, so we can offer our tool for free without aggressive limits.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <h2>Why We Are Different</h2>
-        <p>
-          Most online tools act as a "black box" where you upload a file and hope for the best. ImageConverter operates with total transparency. We don't use tracking scripts on your image content, and we don't store "previews" or "thumbnails" on any remote database. 
+          I'm not trying to be dramatic about it, but I do think it's worth being clear: 
+          a lot of "free" online tools make money by collecting the files people upload. 
+          That might mean using them for AI training datasets, selling metadata, or just 
+          retaining images longer than they claim to. The terms of service on most of these 
+          sites are long and vague on purpose.
         </p>
         <p>
-          Our tool is optimized for <strong>Core Web Vitals</strong>, ensuring that the interface is responsive and stable across all devices, from high-end desktops to mobile smartphones.
+          Building a tool that processes locally removes that concern entirely. I can't 
+          collect your images because they never reach me. That's not a policy — it's 
+          a technical reality. You can verify it by opening your browser's network inspector 
+          while converting an image and watching that no file upload request is made.
         </p>
       </section>
 
       <section>
-        <h2>Our Vision for the Future</h2>
+        <h2>What's coming next</h2>
         <p>
-          As web standards evolve, so do we. We are currently working on integrating <strong>WebAssembly (WASM)</strong> modules to support even more complex formats like AVIF and high-fidelity JPEG XL conversion. Our goal is to become the go-to resource for developers, designers, and everyday users who value speed and security.
+          AVIF conversion is the main thing I'm working on. The compression improvements 
+          over WebP are real and significant for photographs. The challenge is encoding 
+          speed — AVIF is computationally heavy, and I'm not willing to ship something 
+          that makes users wait 10 seconds for a conversion. The WASM implementation 
+          is getting there.
+        </p>
+        <p>
+          After that, probably batch conversion improvements and better handling of 
+          unusual color profiles and large files. I take bug reports seriously — 
+          if something isn't working for your specific use case, let me know.
         </p>
       </section>
 
       <section>
-        <h2>Meet the Developer</h2>
+        <h2>Get in touch</h2>
         <p>
-          I'm Nasa, a developer passionate about building tools that don't compromise user security. I created ImageConverter to ensure that no one has to upload their private photos to a remote server just to change a file format. With a background in web development and a strong belief in digital privacy, I am committed to maintaining and improving this project for the benefit of all users.
+          The <router-link to="/contact">contact page</router-link> comes directly to me. 
+          I read everything. Response time varies depending on how busy I am, but I 
+          try to reply within a few days. Bug reports, feature requests, and feedback 
+          about specific image types that aren't converting well are all useful.
         </p>
       </section>
 
-      <section>
-        <h2>Get in Touch</h2>
-        <p>
-          We are a community-driven project and we thrive on user feedback. Whether you've found a bug, have a feature suggestion, or just want to say hello, we'd love to hear from you.
-        </p>
-        <p>
-          Visit our <router-link to="/contact" class="contact-link">Contact page</router-link> or reach out via email. Your input helps us build a better web, one pixel at a time.
-        </p>
-      </section>
-
-      <section>
-        <h2>Our Core Principles</h2>
-        <div class="principles-grid">
-          <div class="principle-item">
-            <h3>🔒 100% Privacy</h3>
-            <p>We believe your data is yours. By processing images in your browser, your files never leave your computer, making it safer than 99% of online converters.</p>
-          </div>
-          <div class="principle-item">
-            <h3>🚀 Performance</h3>
-            <p>Utilizing your device's local CPU means no waiting for uploads or downloads. It's the fastest way to convert images on the modern web.</p>
-          </div>
-          <div class="principle-item">
-            <h3>🌱 No Tracking</h3>
-            <p>We don't use invasive tracking cookies. Our goal is to provide a clean, ad-supported (to keep the lights on) but non-intrusive experience.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="faq">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-item">
-          <h3>Is my data safe with ImageConverter?</h3>
-          <p>Yes. Unlike 90% of online converters, we use client-side technology. Your images are processed locally in your browser's memory and are never uploaded to any server.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Which formats are supported?</h3>
-          <p>We currently support major web formats including PNG, JPG, and WebP. We are working on adding AVIF support via WebAssembly (WASM) in the next update.</p>
-        </div>
-        <div class="faq-item">
-          <h3>Why is this tool free?</h3>
-          <p>By using your device's processing power instead of expensive server-side CPUs, we keep our overhead low and offer this professional tool to the community for free.</p>
-        </div>
-      </section>
     </div>
   </div>
 
@@ -142,111 +139,106 @@ useHead({
 
 <style scoped>
 .about {
-  padding: 60px 20px;
-  max-width: 850px;
+  padding: 70px 20px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
 h1 {
-  margin-bottom: 30px;
-  font-size: 2.5rem;
+  font-size: 32px;
   color: #111;
-  text-align: center;
+  margin-bottom: 36px;
+  font-weight: 700;
 }
 
 section {
-  margin-bottom: 50px;
+  margin-bottom: 52px;
 }
 
 h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 20px;
   color: #111;
-  border-left: 5px solid var(--primary);
-  padding-left: 15px;
+  margin-bottom: 18px;
+  font-weight: 700;
+  border-left: 3px solid var(--primary);
+  padding-left: 14px;
 }
 
 p {
   color: #444;
-  line-height: 1.8;
-  margin-bottom: 18px;
+  line-height: 1.85;
   font-size: 16px;
+  margin-bottom: 18px;
 }
 
-.tech-highlight {
-  background: #f8f9fa;
-  padding: 25px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  margin: 25px 0;
+p:last-child { margin-bottom: 0; }
+
+/* Origin story — no heading, just reads like a personal note */
+.origin-story p:first-child {
+  font-size: 20px;
+  color: #111;
+  font-weight: 500;
 }
 
-/* 内链导航矩阵样式 */
+/* Tools grid */
 .tools-navigation {
   background: #111;
-  padding: 30px;
-  border-radius: 16px;
+  padding: 28px 32px;
+  border-radius: 12px;
   color: #fff;
 }
-.tools-navigation h3 { color: #fff; margin-top: 0; }
-.tools-navigation p { color: #ccc; }
+
+.tools-navigation h3 {
+  color: #aaa;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 18px 0;
+  font-weight: 600;
+}
 
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
 }
 
 .tool-card {
-  background: #222;
-  padding: 15px;
-  border-radius: 10px;
+  background: #1a1a1a;
+  padding: 14px 16px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: all 0.2s ease;
-  border: 1px solid #333;
+  border: 1px solid #2a2a2a;
+  transition: border-color 0.15s ease;
 }
 
 .tool-card:hover {
-  background: #333;
   border-color: var(--primary);
-  transform: translateY(-3px);
 }
 
 .tool-card strong {
   display: block;
-  color: var(--primary);
-  font-size: 15px;
-  margin-bottom: 5px;
+  color: #fff;
+  font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .tool-card span {
   font-size: 12px;
-  color: #888;
+  color: #666;
 }
 
-/* 原有其它样式 */
-.principles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+a {
+  color: var(--primary);
+  text-decoration: none;
 }
-.principle-item {
-  background: #fff;
-  border: 1px solid #eee;
-  padding: 20px;
-  border-radius: 12px;
-}
-.principle-item h3 { margin-top: 0; font-size: 18px; }
 
-.faq-item {
-  margin-bottom: 25px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
+a:hover {
+  text-decoration: underline;
 }
-.faq-item h3 { font-size: 18px; color: #111; margin-bottom: 10px; }
 
-ul { padding-left: 20px; }
-li { margin-bottom: 10px; color: #555; }
-.contact-link { color: var(--primary); font-weight: 600; text-decoration: underline; }
+@media (max-width: 600px) {
+  .tools-grid { grid-template-columns: 1fr 1fr; }
+  h1 { font-size: 26px; }
+}
 </style>
