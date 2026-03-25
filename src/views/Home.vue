@@ -1,6 +1,17 @@
 <script setup>
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Free Image Converter — JPG, PNG, WebP | No Uploads',
+  meta: [
+    { name: 'description', content: 'Convert JPG, PNG, and WebP images without uploading anything. The conversion runs entirely in your browser — free, private, and fast.' },
+    { property: 'og:title', content: 'Free Image Converter — Browser-Based, No Uploads' },
+    { property: 'og:description', content: 'A one-person project. Converts images locally in your browser — nothing goes to a server.' },
+    { name: 'robots', content: 'index, follow' }
+  ]
+})
 </script>
 
 <template>
@@ -9,11 +20,12 @@ import Footer from "../components/Footer.vue"
   <div class="container home">
     <!-- Hero 区域 -->
     <section class="hero">
-      <h1>Free Online Image Converter</h1>
+      <h1>Image Converter That Stays in Your Browser</h1>
 
       <p class="subtitle">
-        Convert JPG, PNG, and WEBP images instantly in your browser.
-        No uploads. No registration. 100% secure and fast.
+        I built this because I got tired of uploading photos to random converters
+        and wondering what happened to them afterward. Everything runs locally —
+        your files never leave your device.
       </p>
 
       <router-link to="/convert" class="cta-btn">
@@ -21,37 +33,32 @@ import Footer from "../components/Footer.vue"
       </router-link>
     </section>
 
-    <!-- 广告预留位 -->
-    <!-- <div class="ad-placeholder">
-      Advertisement
-    </div> -->
-
     <!-- 功能介绍 -->
     <section class="features">
-      <h2>Why Use Our Image Converter?</h2>
+      <h2>What makes this different</h2>
 
       <div class="feature-list">
         <div class="feature">
-          <h3>🔒 100% Secure</h3>
+          <h3>🔒 Nothing leaves your device</h3>
           <p>
-            Your images are processed locally in your browser.
-            We do not upload, store, or track your files.
+            Your files are processed entirely by your own browser. No server receives them,
+            no database stores them. Open the network inspector while converting — zero upload requests.
           </p>
         </div>
 
         <div class="feature">
-          <h3>⚡ Fast Conversion</h3>
+          <h3>⚡ Starts immediately</h3>
           <p>
-            Instant image conversion powered by modern browser technology.
-            No waiting time and no server delays.
+            Because nothing is uploaded, conversion starts the moment you drop a file.
+            No server queue, no waiting on bandwidth. A 5MB image takes a second or two.
           </p>
         </div>
 
         <div class="feature">
-          <h3>🖼 Multiple Formats</h3>
+          <h3>🖼 JPG, PNG, and WebP</h3>
           <p>
-            Easily convert between JPG, PNG, and WEBP formats
-            for web optimization and storage efficiency.
+            The three formats that cover most real use cases. AVIF is something I looked
+            into — in-browser encoding turned out to be too slow to ship reliably.
           </p>
         </div>
       </div>
@@ -59,66 +66,62 @@ import Footer from "../components/Footer.vue"
 
     <!-- SEO 内容区域 -->
     <section class="content">
-      <h2>Online Image Format Conversion Made Simple</h2>
+      <h2>The story behind this</h2>
 
       <p>
-        Our free online image converter allows you to quickly convert
-        images between popular formats including JPG, PNG, and WEBP.
-        Whether you need to optimize images for your website,
-        reduce file size, or change formats for compatibility,
-        this tool provides a simple and efficient solution.
+        This started as a script I ran locally when I needed to batch-convert some product photos.
+        I turned it into a website when a few friends asked if they could use it too.
+        That was about a year ago. It's still just me running it.
       </p>
 
       <p>
-        Unlike traditional converters that require uploading files
-        to external servers, our tool works entirely in your browser.
-        This ensures maximum privacy and faster performance.
-        Your images never leave your device.
+        The reason it works locally instead of uploading to a server isn't really a technical
+        achievement — it's just the way I wanted to use it myself. I had no idea what
+        other converters were doing with my files, and I didn't want to find out.
+        Chrome, Firefox, and Safari can handle JPG, PNG, and WebP encoding natively now.
+        No plugins, no server-side code needed.
       </p>
 
       <p>
-        The converter is compatible with modern browsers including
-        Chrome, Edge, and Firefox. No software installation is required.
-        Simply upload your image, choose the desired format,
-        and download the converted file instantly.
+        If you want to know more about how it works or why I built it this way,
+        the <router-link to="/about">about page</router-link> has the longer version.
       </p>
     </section>
 
     <section class="extended-content">
-      <h2>Understanding Image Formats: JPG vs PNG vs WEBP</h2>
+      <h2>A quick note on which format to use</h2>
 
       <p>
-        JPG (JPEG) is one of the most widely used image formats for photographs.
-        It provides excellent compression and smaller file sizes, making it ideal
-        for websites and social media platforms. However, it does not support
-        transparency.
+        If you're putting an image on a website and you don't know which format to pick,
+        convert it to WebP. It's smaller than JPG or PNG at equivalent quality,
+        and browser support is effectively universal in 2026.
       </p>
 
       <p>
-        PNG is commonly used for graphics, logos, and images that require
-        transparent backgrounds. It preserves image quality but typically results
-        in larger file sizes compared to JPG.
+        If you need a transparent background, WebP or PNG both work — JPG doesn't support it.
+        If you're sharing the file with someone who might open it in older software like
+        Photoshop or the default Windows photo viewer, stick with JPG or PNG.
+        WebP support in desktop apps is still inconsistent.
       </p>
 
       <p>
-        WEBP is a modern image format developed for web optimization.
-        It offers superior compression while maintaining high visual quality.
-        Many websites use WEBP to improve loading speed and SEO performance.
+        There's a longer breakdown in the <router-link to="/blog/image-formats">image formats guide</router-link>
+        if you want the full comparison, including when PNG actually beats WebP on file size.
       </p>
 
-      <h2>When Should You Convert Image Formats?</h2>
+      <h2>When does converting formats actually help?</h2>
 
       <p>
-        You may need to convert image formats when optimizing your website,
-        reducing storage space, improving compatibility across platforms,
-        or enhancing page speed performance. Converting images can
-        significantly improve user experience and search engine rankings.
+        Mostly when you're putting images on a website and care about load speed.
+        Switching a large hero PNG to WebP can cut the file by 60–70% with no visible
+        quality difference. That directly affects how fast your page loads, which
+        matters both for users and for Core Web Vitals.
       </p>
 
       <p>
-        Our browser-based converter allows you to safely transform images
-        without uploading them to any server, ensuring complete privacy
-        and instant results.
+        It's less useful for archiving or editing workflows — for those, keeping the original
+        lossless format (PNG or RAW) makes more sense. Export to a compressed format
+        only for the final version that goes on the web.
       </p>
     </section>
 
@@ -128,25 +131,27 @@ import Footer from "../components/Footer.vue"
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item">
-        <h3>Is this image converter really free?</h3>
+        <h3>Is it really free?</h3>
         <p>
-          Yes. Our tool is completely free to use without
-          registration or hidden fees.
+          Yes. No signup, no trial, no limit on how many files you convert.
+          I built it to use myself and just kept it public.
         </p>
       </div>
 
       <div class="faq-item">
-        <h3>Are my images uploaded to your server?</h3>
+        <h3>Are my images uploaded anywhere?</h3>
         <p>
-          No. All image processing happens locally in your browser.
-          Your files are never uploaded or stored.
+          Nothing is uploaded. The conversion runs in your browser using your device's own CPU.
+          I genuinely have no access to your files — there's no server receiving them.
+          You can verify this by watching the network tab in dev tools while converting.
         </p>
       </div>
 
       <div class="faq-item">
         <h3>What formats are supported?</h3>
         <p>
-          You can convert between JPG, PNG, and WEBP formats.
+          JPG, PNG, and WebP. AVIF is something I looked into but in-browser encoding
+          was too slow for practical use, so I haven't shipped it yet.
         </p>
       </div>
     </section>

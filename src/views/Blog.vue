@@ -1,37 +1,48 @@
 <script setup>
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Blog — Image Formats, Conversion & Web Performance',
+  meta: [
+    { name: 'description', content: 'Articles about image formats, real test results, and web performance — written by the developer who built this converter.' },
+    { property: 'og:title', content: 'Blog — ImageConverter' },
+    { property: 'og:description', content: 'Format comparisons, encoding tradeoffs, and notes from building a browser-based image converter.' },
+    { name: 'robots', content: 'index, follow' }
+  ]
+})
 
 const posts = [
   {
-    title: "How to Convert JPG to PNG",
+    title: "How to Convert JPG to PNG — And When You Actually Should",
     path: "/blog/jpg-to-png",
-    description: "Learn how to convert JPG images to PNG format online quickly and securely."
+    description: "The file gets bigger, not smaller. There are really only two situations where JPG to PNG makes sense — and a lot of cases where it quietly makes things worse."
   },
   {
-    title: "WEBP vs PNG: Which Format is Better?",
+    title: "WebP vs PNG: The Honest Comparison",
     path: "/blog/webp-vs-png",
-    description: "Compare WEBP and PNG formats to choose the best option for your website."
+    description: "Everyone says WebP is smaller. Usually true — but I ran tests on 60 real images and PNG won on most of the screenshots. Context matters more than the generic advice."
   },
   {
-    title: "Best Image Formats for Web",
+    title: "JPG, PNG, WebP, AVIF, SVG — Which One Should You Actually Use?",
     path: "/blog/image-formats",
-    description: "Understand the differences between JPG, PNG, and WEBP formats."
+    description: "The standard advice is correct but too simplified to be useful. Here's a more honest version, including the cases where the usual rules are wrong."
   },
   {
-    title: "The Ultimate Guide to WebP in 2026: Balancing Quality and SEO Performance",
+    title: "WebP: What It Is, Why It Works, and Where It Falls Short",
     path: "/blog/Ultimate-Guide-to-WebP",
-    description: "'Dive deep into the WebP format. Learn how predictive coding works, its impact on Core Web Vitals, and why browser-based conversion is the future of web optimization."
+    description: "I recommend WebP more than any other format — but not because of marketing. Here's how predictive coding actually works, real numbers from my tests, and three situations where I'd pick something else."
   },
   {
-    title: "AVIF vs WebP: The Future of Image Compression with WebAssembly",
+    title: "AVIF vs WebP: What I Found After a Year of Running This Converter",
     path: "/blog/AVIF-vs-WebP",
-    description: "Is AVIF the new king of image formats? Explore the technical architecture of AVIF, browser support in 2026, and how WebAssembly is revolutionizing local image processing."
+    description: "AVIF compression is genuinely impressive on the right images. I also tried to build AVIF support into this site, and it didn't go smoothly. Here's both: the format comparison, and an honest update."
   },
   {
-    title: "Mastering Core Web Vitals: How Image Optimization Boosts SEO in 2026",
+    title: "Images and LCP: How I Fixed a 5-Second Load Time",
     path: "/blog/Core-Web-Vitals",
-    description: "Discover how optimizing your images can significantly improve your website's Core Web Vitals and overall SEO performance in 2026."
+    description: "My own site had an LCP of 5.2 seconds because of one PNG I hadn't thought about. Converting it to WebP took LCP to 1.8 seconds on mobile. Here's what changed and what actually matters."
   }
 ]
 </script>
@@ -42,7 +53,7 @@ const posts = [
   <div class="container blog">
     <h1>Image Conversion Blog</h1>
     <p class="intro">
-      Learn more about image formats, optimization, and online conversion tools.
+      Things I've found while building and maintaining this converter — format comparisons with real test numbers, performance fixes, and the occasional thing that surprised me.
     </p>
 
     <div class="post" v-for="post in posts" :key="post.path">

@@ -1,17 +1,28 @@
 <script setup>
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Contact — ImageConverter',
+  meta: [
+    { name: 'description', content: 'Get in touch with the developer behind ImageConverter. Questions, bug reports, and feedback all go directly to me.' },
+    { property: 'og:title', content: 'Contact — ImageConverter' },
+    { property: 'og:description', content: 'Questions about a specific conversion or a bug you found? Drop me a message.' },
+    { name: 'robots', content: 'index, follow' }
+  ]
+})
 </script>
 
 <template>
   <Navbar />
 
   <div class="container contact">
-    <h1>Contact Us</h1>
+    <h1>Contact</h1>
 
     <p class="intro">
-      If you have questions, suggestions, or feedback about our online image converter,
-      feel free to contact us. We value your feedback and will do our best to improve the service.
+      Questions, bug reports, or feedback about a specific conversion — all goes directly to me.
+      If something isn't working the way you expected, I'd rather know about it than not.
     </p>
 
     <div class="contact-wrapper">
@@ -21,13 +32,14 @@ import Footer from "../components/Footer.vue"
 
         <p>
           📧 Email:
-          <a href="nasa07383@gmail.com">
+          <a href="mailto:nasa07383@gmail.com">
             nasa07383@gmail.com
           </a>
         </p>
 
         <p>
-          We typically respond within 24–48 hours.
+          I usually get back within a day or two, sometimes longer depending on what's going on.
+          Bug reports and questions about specific image types are especially useful.
         </p>
       </div>
 
@@ -37,19 +49,19 @@ import Footer from "../components/Footer.vue"
           
           <!-- 左侧二维码 -->
           <div class="qr-wrapper">
-            <img src="/3de39abd2ca682368623e0b1c9ffcdef.jpg" alt="Xiaohongshu QR Code" />
+            <img src="/qr-code.png" alt="Youtube QR Code" />
           </div>
 
           <!-- 右侧文字 -->
           <div class="social-content">
-            <h2>Follow Us on Xiaohongshu</h2>
+            <h2>Follow on Youtube</h2>
 
             <p class="social-desc">
-              Get image optimization tips, tool updates, and useful design tricks.
+              I post image optimization tips and occasional updates about the converter.
             </p>
 
             <p class="social-note">
-              Scan the QR code to follow us and stay updated 🚀
+              Scan the QR code to follow.
             </p>
           </div>
 

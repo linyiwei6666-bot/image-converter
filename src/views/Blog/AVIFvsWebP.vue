@@ -4,14 +4,14 @@ import Footer from "../../components/Footer.vue"
 import { useHead } from '@vueuse/head'
 
 useHead({
-  title: 'AVIF vs WebP: Honest Findings After a Year of Running an Image Converter',
+  title: 'AVIF vs WebP: What I Found After a Year of Running This Converter',
   meta: [
-    { 
-      name: 'description', 
-      content: 'I built this image converter and spent months testing AVIF and WebP on real user uploads. Here\'s what I actually found — including the parts that surprised me.' 
+    {
+      name: 'description',
+      content: 'Real test results comparing AVIF and WebP across 100 images — photos, screenshots, product shots. Plus an honest update: I tried to build AVIF conversion into this site, and here\'s what happened.'
     },
-    { property: 'og:title', content: 'AVIF vs WebP: Real Test Results, Not Marketing Numbers' },
-    { property: 'og:description', content: 'I tested AVIF and WebP on hundreds of real images — photos, screenshots, product shots. The results weren\'t what most benchmark articles claim.' },
+    { property: 'og:title', content: 'AVIF vs WebP: Real Test Results From an Image Converter Developer' },
+    { property: 'og:description', content: 'AVIF is genuinely impressive on the right images — but I also tried to build in-browser AVIF support and it didn\'t go smoothly. Here\'s both sides.' },
     { name: 'robots', content: 'index, follow' }
   ]
 })
@@ -93,32 +93,35 @@ useHead({
       <p>The gap is real, but it's not magic. It depends heavily on what you're converting.</p>
     </div>
 
-    <h2 id="speed-problem">The Speed Problem I Didn't Expect</h2>
+    <h2 id="speed-problem">The Encoding Speed Problem That Stopped Me</h2>
     <p>
-      When I first tried to add AVIF conversion to this site, it was embarrassingly slow. Like, 
-      "user closes the tab" slow. A 3MB photo was taking 8–12 seconds to encode. That's not 
-      something you can ship.
+      When I tried to add AVIF conversion to this site, it was painfully slow.
+      A 3MB photo was taking 8–12 seconds to process in a browser tab.
+      That's not something you can ship — users will close the tab before it finishes.
     </p>
     <p>
-      The root cause is that AVIF encoding is computationally heavy. It was designed assuming 
-      you'd run it on a server with time to spare, not in someone's browser tab while they're 
-      waiting. JavaScript alone can't handle it gracefully.
+      The root issue is that AVIF encoding is computationally heavy. It was designed
+      assuming you'd run it on a server with time to spare, not inside a browser tab.
+      JavaScript alone can't handle it without serious optimization work.
     </p>
     <p>
-      That's what led me down the WebAssembly rabbit hole. WebAssembly (WASM) lets you compile 
-      C++ or Rust code and run it inside the browser at near-native speed. I ended up building 
-      on top of <em>libavif</em> — the same library used by professional tools — compiled to WASM. 
-      The encoding time dropped to under 2 seconds for most images. Not instant, but usable.
+      The obvious path forward is WebAssembly (WASM) — compiling a library like
+      <em>libavif</em> to run at near-native speed in the browser. I started looking
+      into that approach. It got complicated fast: color profile edge cases,
+      memory issues on lower-end devices, artifacts on some image types.
+      I got stuck, other parts of the project needed attention,
+      and I decided I'd rather wait and ship something reliable than rush it out.
+      AVIF conversion is still not available on this site.
     </p>
 
     <div class="comparison-grid">
       <div class="comp-item">
         <strong>Upload-to-server approach</strong>
-        <p>Your file travels to someone's computer. Fast for the user, but you're trusting a stranger with your photos. Also means the site owner pays for storage and bandwidth.</p>
+        <p>Your file goes to someone else's computer. Fast for the user, but you're trusting a stranger with your images. The site owner sees them regardless of their privacy policy.</p>
       </div>
       <div class="comp-item highlight-item">
-        <strong>Local WASM processing (what this site uses)</strong>
-        <p>The conversion happens entirely in your browser. Nothing is transmitted. I can't see your files even if I wanted to. No cloud cost, no privacy concern.</p>
+        <strong>Local browser processing (what this site uses for WebP/JPG/PNG)</strong>
+        <p>Conversion happens entirely in your browser using your device's CPU. Nothing leaves your machine. I have no way to see your files — technically, they never reach me.</p>
       </div>
     </div>
 
@@ -142,16 +145,16 @@ useHead({
       corporate browsers behind IT restrictions) get JPG. Nobody gets a broken image.
     </p>
 
-    <h2>An Honest Note About This Site</h2>
+    <h2>An Honest Update About This Site</h2>
     <p>
-      I want to be upfront: AVIF conversion isn't fully live on this converter yet. I'm still 
-      stress-testing the WASM encoder — specifically around edge cases like images with unusual 
-      color profiles and very large files. WebP conversion works well and covers the majority 
-      of use cases. AVIF is coming, but I'd rather take longer and ship something stable.
+      AVIF conversion isn't available on this site. I tried to build it,
+      ran into encoding performance problems in the browser that I haven't fully
+      worked through, and decided not to ship something unreliable.
+      WebP conversion works well and covers the majority of use cases anyway.
     </p>
     <p>
-      If you need AVIF conversion today, Squoosh (by Google) is solid and also runs locally 
-      in your browser. It's what I tested against when calibrating my own output quality.
+      If you specifically need AVIF today, Squoosh by Google handles it and
+      also runs entirely locally in your browser. That's the tool I'd point you to.
     </p>
 
     <h2 id="privacy">One More Thing: Where Your Images Go</h2>
@@ -174,7 +177,7 @@ useHead({
       </div>
       <div class="faq-box">
         <h3>Can I convert to AVIF on this site?</h3>
-        <p>Not yet — I'm still finalizing the encoder. WebP is available now and is excellent for most use cases. I'll update this post when AVIF goes live.</p>
+        <p>No. I tried building AVIF encoding and ran into encoding performance and reliability problems in the browser that I haven't resolved. For AVIF conversion right now, Squoosh by Google is the best local browser option.</p>
       </div>
       <div class="faq-box">
         <h3>Does AVIF support transparency like PNG?</h3>
