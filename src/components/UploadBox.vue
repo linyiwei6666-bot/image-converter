@@ -1,17 +1,23 @@
 <script setup>
 const emit = defineEmits(["fileSelected"])
 
+const props = defineProps({
+  accept: { type: String, default: "image/*" }
+})
+
 function handleFile(e) {
   const file = e.target.files[0]
   if (file) {
     emit("fileSelected", file)
   }
 }
+
+
 </script>
 
 <template>
   <div class="upload-box">
-    <input type="file" @change="handleFile" accept="image/*" />
+    <input type="file" @change="handleFile" :accept="props.accept" />
 
     <div class="upload-content">
       <p>Drag & Drop your image here</p>

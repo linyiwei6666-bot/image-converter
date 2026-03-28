@@ -14,7 +14,6 @@ const success = ref(false)
 const resultUrl = ref(null)
 const isLoading = ref(false)
 
-// 1. SEO 标题映射 (用于浏览器标签页和页面 H1)
 const titleMap = {
   "jpg-to-png": "Convert JPG to PNG — Free, No Upload",
   "png-to-jpg": "Convert PNG to JPG — Free, No Upload",
@@ -24,7 +23,6 @@ const titleMap = {
   "webp-to-jpg": "Convert WebP to JPG — Free, No Upload",
 }
 
-// 2. 深度长描述 (你原有的高质量文案)
 const descriptionMap = {
   "jpg-to-png": "JPG to PNG makes sense in two situations: you need a transparent background (JPG doesn't support one), or you're going to edit the image multiple times and want to stop recompressing it on every save. Outside those cases, expect the file to get noticeably larger — PNG stores every pixel individually, which takes more space than JPG's compressed approximation. Not a problem, just worth knowing before you start. The conversion runs in your browser; nothing is uploaded.",
   "png-to-jpg": "For photographs going on a website, converting PNG to JPG usually cuts file size by 60–80%. The tradeoff is lossy compression — you're trading some quality for smaller size. In practice, the difference is invisible at quality 85 or above. Keep the PNG if you're still editing. Export to JPG for the final version that goes online. Transparent pixels get filled with white on conversion, so check that before downloading.",
@@ -34,7 +32,6 @@ const descriptionMap = {
   "webp-to-jpg": "JPG is the most compatible image format in existence. Email attachments, social media, digital photo frames, older phones — JPG works everywhere. If you have a WebP file that won't upload somewhere, or that someone can't open, converting it to JPG usually solves the problem immediately. The quality slider lets you control file size; 85 is a reasonable default for most uses."
 }
 
-// 3. 补全后的 FAQ 映射 (全 6 种格式覆盖)
 const faqMap = {
   "jpg-to-png": [
     { q: "Does JPG to PNG maintain transparency?", a: "JPG files do not have transparency. When you convert to PNG, the background will be opaque, but you can then use editing tools to remove it since PNG supports alpha channels." },
@@ -62,7 +59,21 @@ const faqMap = {
   ]
 }
 
-// 4. 逻辑计算
+// All tools for the hub — format converters + new tools
+const formatTools = [
+  { label: "JPG → PNG", path: "/jpg-to-png" },
+  { label: "PNG → JPG", path: "/png-to-jpg" },
+  { label: "PNG → WebP", path: "/png-to-webp" },
+  { label: "WebP → PNG", path: "/webp-to-png" },
+  { label: "JPG → WebP", path: "/jpg-to-webp" },
+  { label: "WebP → JPG", path: "/webp-to-jpg" },
+]
+
+const extraTools = [
+  { label: "HEIC → JPG", path: "/heic-to-jpg", badge: "iPhone" },
+  { label: "Compress Image", path: "/compress-image", badge: "New" },
+]
+
 const currentKey = computed(() => {
   const path = route.path.replace('/', '')
   return Object.keys(titleMap).includes(path) ? path : 'default'
@@ -88,7 +99,6 @@ useHead({
 const pageTitle = computed(() => currentSeo.value.title)
 const longDescription = computed(() => descriptionMap[currentKey.value] || '')
 
-// 5. 核心转换逻辑 (保持不变)
 function handleFile(file) { selectedFile.value = file }
 function convertImage(options) {
   if (!selectedFile.value) { success.value = false; showModal.value = true; return; }
@@ -117,6 +127,38 @@ function closeModal() { showModal.value = false }
 <template>
   <Navbar />
   <div class="container">
+
+    <!-- Tool hub nav -->
+    <nav class="tool-hub">
+      <div class="hub-group">
+        <span class="hub-label">Format convert</span>
+        <div class="hub-pills">
+          <router-link
+            v-for="t in formatTools"
+            :key="t.path"
+            :to="t.path"
+            class="pill"
+            active-class="pill-active"
+          >{{ t.label }}</router-link>
+        </div>
+      </div>
+      <div class="hub-group">
+        <span class="hub-label">More tools</span>
+        <div class="hub-pills">
+          <router-link
+            v-for="t in extraTools"
+            :key="t.path"
+            :to="t.path"
+            class="pill pill-extra"
+            active-class="pill-active"
+          >
+            {{ t.label }}
+            <span class="badge">{{ t.badge }}</span>
+          </router-link>
+        </div>
+      </div>
+    </nav>
+
     <header class="tool-header">
       <h1>{{ pageTitle }}</h1>
       <p class="subtitle">Secure, Browser-Based Image Conversion. <strong>No Uploads Required.</strong></p>
@@ -172,28 +214,69 @@ function closeModal() { showModal.value = false }
 
 <style scoped>
 .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; font-family: sans-serif; }
+
+/* Tool hub */
+.tool-hub {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 36px;
+}
+.hub-group { display: flex; flex-direction: column; gap: 8px; }
+.hub-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; font-weight: 600; }
+.hub-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+  padding: 5px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #444;
+  text-decoration: none;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.pill:hover { border-color: #111; color: #111; }
+.pill-active { background: #111; color: #fff; border-color: #111; }
+.pill-extra { border-color: #c40000; color: #c40000; }
+.pill-extra:hover, .pill-extra.pill-active { background: #c40000; color: #fff; }
+.badge {
+  display: inline-block;
+  margin-left: 5px;
+  padding: 1px 6px;
+  background: #fff0f0;
+  color: #c40000;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+.pill-active .badge, .pill-extra:hover .badge { background: rgba(255,255,255,0.25); color: #fff; }
+
+/* Header */
 .tool-header { text-align: center; margin-bottom: 40px; }
 .tool-header h1 { font-size: 2.2rem; color: #111; margin-bottom: 10px; }
 .subtitle { font-size: 1.1rem; color: #666; }
 
+/* Info sections */
 .info-section { margin-top: 50px; line-height: 1.7; }
-.guide-card { border-left: 5px solid #111; padding-left: 20px; background: #fafafa; padding: 20px; }
+.guide-card { border-left: 5px solid #111; background: #fafafa; padding: 20px; }
 .long-desc { color: #444; font-size: 16px; }
-
 .privacy-badge { display: flex; align-items: center; gap: 20px; background: #e8f5e9; padding: 25px; border-radius: 8px; border: 1px solid #c8e6c9; }
 .privacy-badge .icon { font-size: 32px; }
 .privacy-badge h3 { margin: 0; color: #2e7d32; }
-
 .faq-section .faq-item { margin-bottom: 25px; }
 .faq-section h3 { font-size: 1.15rem; color: #111; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 .faq-section p { color: #555; }
-
 .knowledge-base { border-top: 2px solid #eee; padding-top: 30px; }
 .links-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 15px; }
 .blog-link { background: #111; color: white; padding: 8px 15px; text-decoration: none; font-size: 14px; border-radius: 4px; }
 .blog-link:hover { opacity: 0.8; }
 
-/* 弹窗样式 */
+/* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
 .modal { background: white; padding: 40px; border-radius: 12px; max-width: 400px; text-align: center; position: relative; }
 .modal-close { position: absolute; top: 10px; right: 10px; border: none; background: none; font-size: 24px; cursor: pointer; }

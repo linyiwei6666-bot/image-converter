@@ -12,6 +12,8 @@ import ImageFormats from '../views/Blog/ImageFormats.vue'
 import UltimateGuideToWebP from '../views/Blog/UltimateGuidetoWebP.vue'
 import AVIFvsWebP from '../views/Blog/AVIFvsWebP.vue'
 import WebVitals from '../views/Blog/WebVitals.vue'
+import HeicToJpg from '../views/HeicToJpg.vue'
+import ImageCompressor from '../views/ImageCompressor.vue'
 
 const routes = [
   { 
@@ -43,6 +45,8 @@ const routes = [
   { path: '/about', component: About, meta: { title: 'About Us - Free Image Converter Tool' } },
   { path: '/privacy', component: Privacy, meta: { title: 'Privacy Policy - Image Converter' } },
   { path: '/contact', component: Contact, meta: { title: 'Contact Us - Image Converter' } },
+  { path: '/heic-to-jpg', component: HeicToJpg, meta: { title: 'Convert HEIC to JPG — Free, No Upload' } },
+  { path: '/compress-image', component: ImageCompressor, meta: { title: 'Compress Images Free — No Upload, Instant Results' } },
 
   //blog
   { path: "/blog", component: Blog },
