@@ -1,17 +1,16 @@
 <script setup>
-import { ref } from "vue"
-import heic2any from "heic2any"
+import { ref, computed } from "vue"
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
 import UploadBox from "../components/UploadBox.vue"
 import { useHead } from "@vueuse/head"
 
 useHead({
-  title: "Convert HEIC to JPG — Free, No Upload",
+  title: "Compress Images Free — No Upload, Instant Results",
   meta: [
-    { name: "description", content: "Convert iPhone HEIC photos to JPG instantly in your browser. No upload, no account, completely private." },
-    { property: "og:title", content: "Convert HEIC to JPG — Free, No Upload" },
-    { property: "og:description", content: "Convert iPhone HEIC photos to JPG instantly in your browser. No upload, no account, completely private." },
+    { name: "description", content: "Compress JPG, PNG and WebP images without losing quality. Runs entirely in your browser — no upload, no account needed." },
+    { property: "og:title", content: "Compress Images Free — No Upload, Instant Results" },
+    { property: "og:description", content: "Compress JPG, PNG and WebP images without losing quality. Runs entirely in your browser — no upload, no account needed." },
   ],
 })
 
@@ -20,19 +19,23 @@ const isLoading = ref(false)
 const showModal = ref(false)
 const success = ref(false)
 const resultUrl = ref(null)
+const resultFilename = ref("")
 const originalSize = ref(0)
-const convertedSize = ref(0)
-const quality = ref(0.85)
+const compressedSize = ref(0)
+
+// Compression settings
+const maxSizeMB = ref(1)        // target max file size in MB
+const maxWidthOrHeight = ref(1920)
+const useWebWorker = true
 
 function handleFile(file) {
   selectedFile.value = file
   originalSize.value = file.size
-  // Reset previous result
   resultUrl.value = null
   success.value = false
 }
 
-async function convertImage() {
+async function compressImage() {
   if (!selectedFile.value) {
     success.value = false
     showModal.value = true
@@ -40,15 +43,19 @@ async function convertImage() {
   }
   isLoading.value = true
   try {
-    const blob = await heic2any({
-      blob: selectedFile.value,
-      toType: "image/jpeg",
-      quality: quality.value,
-    })
-    // heic2any can return an array when HEIC contains multiple images
-    const result = Array.isArray(blob) ? blob[0] : blob
-    convertedSize.value = result.size
-    resultUrl.value = URL.createObjectURL(result)
+    const imageCompression = (await import("browser-image-compression")).default
+    const options = {
+      maxSizeMB: maxSizeMB.value,
+      maxWidthOrHeight: maxWidthOrHeight.value,
+      useWebWorker: true,
+    }
+    const compressed = await imageCompression(selectedFile.value, options)
+    compressedSize.value = compressed.size
+
+    // Preserve original filename and extension
+    const ext = selectedFile.value.name.split(".").pop()
+    resultFilename.value = selectedFile.value.name.replace(`.${ext}`, `_compressed.${ext}`)
+    resultUrl.value = URL.createObjectURL(compressed)
     success.value = true
   } catch {
     success.value = false
@@ -67,11 +74,16 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(1) + " MB"
 }
 
-const savings = () => {
-  if (!originalSize.value || !convertedSize.value) return null
-  const pct = Math.round((1 - convertedSize.value / originalSize.value) * 100)
-  return pct > 0 ? pct : null
-}
+const savingsPct = computed(() => {
+  if (!originalSize.value || !compressedSize.value) return null
+  return Math.round((1 - compressedSize.value / originalSize.value) * 100)
+})
+
+// Human-readable target size label
+const targetLabel = computed(() => {
+  if (maxSizeMB.value < 1) return Math.round(maxSizeMB.value * 1024) + " KB"
+  return maxSizeMB.value + " MB"
+})
 </script>
 
 <template>
@@ -79,40 +91,69 @@ const savings = () => {
   <div class="container">
 
     <header class="tool-header">
-      <h1>Convert HEIC to JPG — Free, No Upload</h1>
-      <p class="subtitle">iPhone photos converted instantly in your browser. <strong>Your files never leave your device.</strong></p>
+      <h1>Compress Images Free — No Upload, Instant Results</h1>
+      <p class="subtitle">Reduce JPG, PNG and WebP file size without visible quality loss. <strong>Everything runs in your browser.</strong></p>
     </header>
 
-    <!-- UploadBox — add accept prop if your component supports it -->
-    <UploadBox @file-selected="handleFile" accept=".heic,.HEIC" />
+    <UploadBox @file-selected="handleFile" accept=".jpg,.jpeg,.png,.webp" />
 
-    <!-- File info strip (shows after a file is picked) -->
+    <!-- File info strip -->
     <div v-if="selectedFile" class="file-strip">
       <span class="file-name">{{ selectedFile.name }}</span>
       <span class="file-size">{{ formatSize(originalSize) }}</span>
     </div>
 
-    <!-- Quality control -->
+    <!-- Compression options -->
     <div class="options">
+      <h3>Compression Settings</h3>
+
       <div class="option-group">
-        <label>Output quality — {{ Math.round(quality * 100) }}%</label>
-        <input type="range" min="0.5" max="1" step="0.05" v-model="quality" />
-        <p class="hint">85% is a great default. Lower for smaller files, higher to preserve fine detail.</p>
+        <label>Target file size — {{ targetLabel }}</label>
+        <input
+          type="range"
+          min="0.1"
+          max="3"
+          step="0.1"
+          v-model.number="maxSizeMB"
+        />
+        <p class="hint">The tool will try to compress to under this size. Lower = smaller file, but may reduce quality.</p>
       </div>
-      <button class="convert-btn" @click="convertImage" :disabled="!selectedFile">
-        Convert to JPG
+
+      <div class="option-group">
+        <label>Max dimension — {{ maxWidthOrHeight }}px</label>
+        <input
+          type="range"
+          min="800"
+          max="4000"
+          step="200"
+          v-model.number="maxWidthOrHeight"
+        />
+        <p class="hint">Images wider or taller than this will be scaled down proportionally. Set to 4000px to preserve full resolution.</p>
+      </div>
+
+      <!-- Preset buttons -->
+      <div class="presets">
+        <span class="preset-label">Presets:</span>
+        <button class="preset-btn" @click="maxSizeMB = 0.2; maxWidthOrHeight = 1200">Web thumbnail</button>
+        <button class="preset-btn" @click="maxSizeMB = 1; maxWidthOrHeight = 1920">Balanced</button>
+        <button class="preset-btn" @click="maxSizeMB = 3; maxWidthOrHeight = 4000">High quality</button>
+      </div>
+
+      <button class="convert-btn" @click="compressImage" :disabled="!selectedFile">
+        Compress Image
       </button>
     </div>
 
-    <!-- Info sections (same pattern as your existing page) -->
+    <!-- Info sections -->
     <section class="info-section guide-card">
       <h2>Understanding This Tool</h2>
       <p class="long-desc">
-        iPhone and iPad cameras default to HEIC because it's roughly half the file size of a JPG
-        at the same visual quality. The problem is compatibility — Windows apps, most social
-        platforms, and many web services expect JPG and either reject HEIC outright or convert it
-        badly. This tool converts in your browser using the same decoder Apple ships, so the colour
-        profile and fine detail are preserved. Nothing is uploaded; the file never leaves your machine.
+        Most images leaving a camera or design tool are far larger than they need to be on the web.
+        A 4 MB PNG from Figma, a 6 MB photo from an iPhone — neither needs to be that size to look
+        sharp on screen. This tool applies smart lossy compression and optional downscaling, then
+        gives you back a file that's typically 60–80% smaller with no visible difference at normal
+        viewing sizes. Everything runs in your browser via WebAssembly; the original file is never
+        uploaded anywhere.
       </p>
     </section>
 
@@ -127,16 +168,16 @@ const savings = () => {
     <section class="info-section faq-section">
       <h2>Frequently Asked Questions</h2>
       <div class="faq-item">
-        <h3>Why can't I open HEIC files on Windows?</h3>
-        <p>Windows doesn't include a HEIC decoder by default. You can install the Microsoft HEIF extension, or simply convert to JPG for universal compatibility — which is what this tool does.</p>
+        <h3>How much can I compress without losing quality?</h3>
+        <p>For photographs, compressing to 70–80% of the original quality is typically invisible to the naked eye. The "Balanced" preset targets this range. For graphics with flat colours (logos, screenshots), PNG compression is lossless so you won't lose any quality at all.</p>
       </div>
       <div class="faq-item">
-        <h3>Will I lose quality converting HEIC to JPG?</h3>
-        <p>At quality 85% and above, the difference is invisible in normal viewing. Set the slider higher if you're printing or doing further editing. The original HEIC file stays untouched.</p>
+        <h3>Does this compress PNG files?</h3>
+        <p>Yes. PNG compression is lossless — the tool optimises the PNG data structure without removing any image information. File size reductions on PNG are usually smaller (10–40%) compared to JPG, but no quality is lost.</p>
       </div>
       <div class="faq-item">
-        <h3>Does this work with Live Photos?</h3>
-        <p>This tool converts the still image portion of a HEIC file. The motion part of a Live Photo is stored separately and isn't included in the HEIC itself.</p>
+        <h3>Why compress images for a website?</h3>
+        <p>Image size is the single biggest factor in page load time. Google's Core Web Vitals score — which directly affects search rankings — heavily penalises slow-loading images. Compressing before upload is the easiest fix.</p>
       </div>
     </section>
 
@@ -149,26 +190,35 @@ const savings = () => {
       <div class="status-icon" :class="success ? 'success-icon' : 'error-icon'">
         {{ success ? "✓" : "!" }}
       </div>
-      <h2>{{ success ? "Conversion Complete" : "Conversion Failed" }}</h2>
+      <h2>{{ success ? "Compression Complete" : "Something Went Wrong" }}</h2>
 
       <template v-if="success">
-        <div class="size-row">
-          <span>{{ formatSize(originalSize) }} → {{ formatSize(convertedSize) }}</span>
-          <span v-if="savings()" class="badge">–{{ savings() }}% smaller</span>
+        <div class="size-comparison">
+          <div class="size-block">
+            <p class="size-label">Before</p>
+            <p class="size-value">{{ formatSize(originalSize) }}</p>
+          </div>
+          <div class="arrow">→</div>
+          <div class="size-block">
+            <p class="size-label">After</p>
+            <p class="size-value highlight">{{ formatSize(compressedSize) }}</p>
+          </div>
         </div>
-        <p>Converted in your browser. Nothing was uploaded.</p>
-        <a :href="resultUrl" download="converted.jpg" class="download-btn">Download JPG</a>
+        <p v-if="savingsPct > 0" class="savings-note">
+          <span class="badge">{{ savingsPct }}% smaller</span> — compressed in your browser
+        </p>
+        <a :href="resultUrl" :download="resultFilename" class="download-btn">Download Compressed Image</a>
       </template>
 
       <template v-else>
-        <p>Please upload a valid HEIC file. Make sure the file extension is .heic or .HEIC.</p>
+        <p>Please upload a valid JPG, PNG or WebP image and try again.</p>
       </template>
     </div>
   </div>
 
   <div v-if="isLoading" class="loading-overlay">
     <div class="spinner"></div>
-    <p>Converting in browser…</p>
+    <p>Compressing in browser…</p>
   </div>
 
   <Footer />
@@ -195,7 +245,7 @@ const savings = () => {
 .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; }
 .file-size { color: #888; flex-shrink: 0; }
 
-/* Options panel */
+/* Options */
 .options {
   margin-top: 30px;
   padding: 30px;
@@ -205,10 +255,27 @@ const savings = () => {
   display: flex;
   flex-direction: column;
 }
-.option-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+.options h3 { margin: 0 0 20px; font-size: 18px; }
+.option-group { margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; }
 .option-group label { font-size: 14px; color: #555; font-weight: 600; }
 .option-group input[type="range"] { width: 100%; }
 .hint { font-size: 13px; color: #888; margin: 0; }
+
+/* Presets */
+.presets { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.preset-label { font-size: 13px; color: #888; }
+.preset-btn {
+  padding: 6px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: #333;
+}
+.preset-btn:hover { border-color: #111; background: #f5f5f5; }
+
 .convert-btn {
   margin-top: 10px;
   background: #c40000;
@@ -219,6 +286,7 @@ const savings = () => {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 16px;
 }
 .convert-btn:hover:not(:disabled) { background: #a80000; }
 .convert-btn:disabled { background: #ccc; cursor: not-allowed; }
@@ -236,13 +304,21 @@ const savings = () => {
 
 /* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-.modal { background: white; padding: 40px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; position: relative; }
+.modal { background: white; padding: 40px; border-radius: 12px; max-width: 420px; width: 90%; text-align: center; position: relative; }
 .modal-close { position: absolute; top: 10px; right: 10px; border: none; background: none; font-size: 24px; cursor: pointer; }
 .status-icon { width: 60px; height: 60px; margin: 0 auto 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; }
 .success-icon { background: #2e7d32; }
 .error-icon { background: #c62828; }
-.size-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 8px 0 12px; font-size: 15px; color: #444; }
-.badge { background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 13px; font-weight: 600; }
+
+/* Size comparison in modal */
+.size-comparison { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 16px 0 8px; }
+.size-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.size-label { font-size: 12px; color: #888; margin: 0; text-transform: uppercase; letter-spacing: 0.05em; }
+.size-value { font-size: 20px; font-weight: 700; color: #111; margin: 0; }
+.size-value.highlight { color: #2e7d32; }
+.arrow { font-size: 24px; color: #ccc; }
+.savings-note { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; color: #555; margin: 6px 0 0; }
+.badge { background: #e8f5e9; color: #2e7d32; padding: 2px 10px; border-radius: 12px; font-size: 13px; font-weight: 700; }
 .download-btn { display: inline-block; margin-top: 20px; background: #111; color: white; padding: 12px 25px; text-decoration: none; border-radius: 6px; font-weight: bold; }
 
 /* Loading */

@@ -4,62 +4,111 @@ import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
 import UploadBox from "../components/UploadBox.vue"
 import { useHead } from "@vueuse/head"
+import { useToolSchema, useFaqSchema, useHowToSchema } from "../composables/useSchema.js"
 
+// ── SEO meta ──────────────────────────────────────────────────────────────────
 useHead({
-  title: "Convert HEIC to JPG — Free, No Upload",
+  title: "HEIC to JPG Converter — Free, No Upload, No Sign-Up",
   meta: [
-    { name: "description", content: "Convert iPhone HEIC photos to JPG instantly in your browser. No upload, no account, completely private." },
-    { property: "og:title", content: "Convert HEIC to JPG — Free, No Upload" },
+    {
+      name: "description",
+      content:
+        "Convert iPhone HEIC photos to JPG instantly in your browser. No upload, no account, 100% private. Works on Windows, Mac and Android.",
+    },
+    { property: "og:title",       content: "HEIC to JPG Converter — Free, No Upload" },
     { property: "og:description", content: "Convert iPhone HEIC photos to JPG instantly in your browser. No upload, no account, completely private." },
+    { property: "og:type",        content: "website" },
+    { name: "robots",             content: "index, follow" },
+  ],
+  link: [
+    { rel: "canonical", href: "https://imageconvert.website/heic-to-jpg" },
   ],
 })
 
-const selectedFile = ref(null)
-const isLoading = ref(false)
-const showModal = ref(false)
-const success = ref(false)
-const resultUrl = ref(null)
-const originalSize = ref(0)
+// ── Structured data ───────────────────────────────────────────────────────────
+useToolSchema({
+  name: "HEIC to JPG Converter",
+  description:
+    "Convert iPhone HEIC photos to JPG instantly in your browser — free, no upload, no sign-up required.",
+  url: "https://imageconvert.website/heic-to-jpg",
+})
+
+useHowToSchema({
+  name: "How to Convert HEIC to JPG for Free",
+  description: "Convert iPhone HEIC photos to JPG in your browser in three steps — no software needed.",
+  steps: [
+    { name: "Select your file",   text: "Click the upload area or drag your .heic photo onto it." },
+    { name: "Set quality",        text: "Adjust the quality slider if needed. 85% is a good default for most uses." },
+    { name: "Download the JPG",   text: "Click Convert to JPG and then Download JPG. The file never leaves your device." },
+  ],
+})
+
+useFaqSchema([
+  {
+    q: "Why can't I open HEIC files on Windows?",
+    a: "Windows doesn't include a HEIC decoder by default. You can install the Microsoft HEIF extension, or simply convert to JPG for universal compatibility — which is what this tool does.",
+  },
+  {
+    q: "Will I lose quality converting HEIC to JPG?",
+    a: "At quality 85% and above, the difference is invisible in normal viewing. Set the slider higher if you're printing or doing further editing. The original HEIC file stays untouched.",
+  },
+  {
+    q: "Does this work with Live Photos?",
+    a: "This tool converts the still image portion of a HEIC file. The motion part of a Live Photo is stored separately and isn't included in the HEIC itself.",
+  },
+  {
+    q: "Is my photo uploaded to a server?",
+    a: "No. The conversion runs entirely in your browser using WebAssembly. Your file never leaves your device and no data is sent to any server.",
+  },
+  {
+    q: "What devices produce HEIC files?",
+    a: "iPhones and iPads running iOS 11 or later save photos in HEIC by default. You can switch to JPG in Settings → Camera → Formats → Most Compatible.",
+  },
+])
+
+// ── Component logic ───────────────────────────────────────────────────────────
+const selectedFile  = ref(null)
+const isLoading     = ref(false)
+const showModal     = ref(false)
+const success       = ref(false)
+const resultUrl     = ref(null)
+const originalSize  = ref(0)
 const convertedSize = ref(0)
-const quality = ref(0.85)
+const quality       = ref(0.85)
 
 function handleFile(file) {
-  selectedFile.value = file
-  originalSize.value = file.size
-  // Reset previous result
-  resultUrl.value = null
-  success.value = false
+  selectedFile.value  = file
+  originalSize.value  = file.size
+  resultUrl.value     = null
+  success.value       = false
 }
 
 async function convertImage() {
   if (!selectedFile.value) {
-    success.value = false
+    success.value  = false
     showModal.value = true
     return
   }
   isLoading.value = true
   try {
-    // 动态导入，只在浏览器运行时加载
     const heic2any = (await import("heic2any")).default
     const blob = await heic2any({
-      blob: selectedFile.value,
+      blob:   selectedFile.value,
       toType: "image/jpeg",
       quality: quality.value,
     })
-    const result = Array.isArray(blob) ? blob[0] : blob
+    const result        = Array.isArray(blob) ? blob[0] : blob
     convertedSize.value = result.size
-    resultUrl.value = URL.createObjectURL(result)
-    success.value = true
+    resultUrl.value     = URL.createObjectURL(result)
+    success.value       = true
   } catch {
     success.value = false
   }
-  isLoading.value = false
-  showModal.value = true
+  isLoading.value  = false
+  showModal.value  = true
 }
 
-function closeModal() {
-  showModal.value = false
-}
+function closeModal() { showModal.value = false }
 
 function formatSize(bytes) {
   if (bytes === 0) return "—"

@@ -6,15 +6,15 @@ export default defineConfig({
   [vue(),
     // SSR 构建时用空函数替换 heic2any，避免 window 报错
     {
-      name: 'ssr-stub-heic2any',
+      name: 'ssr-stub-browser-libs',
       enforce: 'pre',
       resolveId(id, importer, options) {
-        if (options?.ssr && id === 'heic2any') {
-          return '\0heic2any-stub'
+        if (options?.ssr && (id === 'heic2any' || id === 'browser-image-compression')) {
+          return `\0${id}-stub`
         }
       },
       load(id) {
-        if (id === '\0heic2any-stub') {
+        if (id.endsWith('-stub')) {
           return 'export default function() {}'
         }
       }
