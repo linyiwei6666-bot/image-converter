@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
 import UploadBox from "../components/UploadBox.vue"
 import { useHead } from "@vueuse/head"
-import { useToolSchema, useFaqSchema, useHowToSchema } from "../composables/useSchema.js"
+import { useToolSchema, useFaqSchema, useHowToSchema } from "../composables/useSchema .js"
 
 // ── SEO meta ──────────────────────────────────────────────────────────────────
 useHead({
