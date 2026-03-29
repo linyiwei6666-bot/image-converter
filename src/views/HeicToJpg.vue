@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from "vue"
-import heic2any from "heic2any"
 import Navbar from "../components/Navbar.vue"
 import Footer from "../components/Footer.vue"
 import UploadBox from "../components/UploadBox.vue"
@@ -40,12 +39,13 @@ async function convertImage() {
   }
   isLoading.value = true
   try {
+    // 动态导入，只在浏览器运行时加载
+    const heic2any = (await import("heic2any")).default
     const blob = await heic2any({
       blob: selectedFile.value,
       toType: "image/jpeg",
       quality: quality.value,
     })
-    // heic2any can return an array when HEIC contains multiple images
     const result = Array.isArray(blob) ? blob[0] : blob
     convertedSize.value = result.size
     resultUrl.value = URL.createObjectURL(result)
