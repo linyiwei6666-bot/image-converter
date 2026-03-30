@@ -1,6 +1,13 @@
 <script setup>
 import { ref, watch } from "vue"
 
+const props = defineProps({
+  imageFile: {
+    type: File,
+    default: null
+  }
+})
+
 const emit = defineEmits(["convert"])
 
 const format = ref("image/png")
@@ -25,6 +32,11 @@ function handleConvert() {
   <div class="options">
     <h3>Convert Options</h3>
 
+    <!-- 图片已加载提示 -->
+    <div class="image-loaded" v-if="imageFile">
+      ✅ Image loaded: {{ imageFile.name }}
+    </div>
+
     <div class="option-group">
       <label>Target Format</label>
       <select v-model="format">
@@ -46,7 +58,7 @@ function handleConvert() {
       <span>{{ quality }}</span>
     </div>
 
-    <button class="convert-btn" @click="handleConvert">
+    <button class="convert-btn" @click="handleConvert" :disabled="!imageFile">
       Convert Image
     </button>
   </div>
@@ -67,6 +79,16 @@ function handleConvert() {
 h3 {
   margin-bottom: 20px;
   font-size: 18px;
+}
+
+.image-loaded {
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: #f0fff4;
+  border: 1px solid #b7ebc8;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #2d7a47;
 }
 
 .option-group {
@@ -101,7 +123,12 @@ input[type="range"] {
   margin: 20px auto 0;
 }
 
-.convert-btn:hover {
+.convert-btn:hover:not(:disabled) {
   background: #a80000;
+}
+
+.convert-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 </style>

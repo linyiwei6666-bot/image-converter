@@ -59,7 +59,6 @@ const faqMap = {
   ]
 }
 
-// All tools for the hub — format converters + new tools
 const formatTools = [
   { label: "JPG → PNG", path: "/jpg-to-png" },
   { label: "PNG → JPG", path: "/png-to-jpg" },
@@ -98,6 +97,12 @@ useHead({
 
 const pageTitle = computed(() => currentSeo.value.title)
 const longDescription = computed(() => descriptionMap[currentKey.value] || '')
+
+function formatSize(bytes) {
+  if (bytes === 0) return "—"
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + " KB"
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB"
+}
 
 function handleFile(file) { selectedFile.value = file }
 function convertImage(options) {
@@ -165,7 +170,15 @@ function closeModal() { showModal.value = false }
     </header>
 
     <UploadBox @file-selected="handleFile" />
-    <ConvertOptions @convert="convertImage" />
+
+    <!-- ✅ 新增：图片已加载提示条 -->
+    <div v-if="selectedFile" class="file-strip">
+      <span class="file-name">{{ selectedFile.name }}</span>
+      <span class="file-size">{{ formatSize(selectedFile.size) }}</span>
+    </div>
+
+    <!-- ✅ 传入 imageFile prop -->
+    <ConvertOptions :image-file="selectedFile" @convert="convertImage" />
 
     <section class="info-section guide-card" v-if="longDescription">
       <h2>Understanding This Tool</h2>
@@ -260,6 +273,21 @@ function closeModal() { showModal.value = false }
 .tool-header { text-align: center; margin-bottom: 40px; }
 .tool-header h1 { font-size: 2.2rem; color: #111; margin-bottom: 10px; }
 .subtitle { font-size: 1.1rem; color: #666; }
+
+/* File strip */
+.file-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #444;
+}
+.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%; }
+.file-size { color: #888; flex-shrink: 0; }
 
 /* Info sections */
 .info-section { margin-top: 50px; line-height: 1.7; }
