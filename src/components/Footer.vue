@@ -9,6 +9,7 @@
         <router-link to="/privacy">Privacy</router-link>
         <router-link to="/about">About</router-link>
         <router-link to="/contact">Contact</router-link>
+        <a href="https://toolpilot.ai" target="_blank" rel="noopener">Featured on ToolPilot</a>
       </div>
     </div>
   </footer>
