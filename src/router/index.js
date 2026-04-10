@@ -12,6 +12,7 @@ import ImageFormats from '../views/Blog/ImageFormats.vue'
 import UltimateGuideToWebP from '../views/Blog/UltimateGuidetoWebP.vue'
 import AVIFvsWebP from '../views/Blog/AVIFvsWebP.vue'
 import WebVitals from '../views/Blog/WebVitals.vue'
+import WhyImagesLoadSlows from '../views/Blog/why-images-load-slow.vue'
 import HeicToJpg from '../views/HeicToJpg.vue'
 import ImageCompressor from '../views/ImageCompressor.vue'
 
@@ -55,7 +56,8 @@ const routes = [
   { path: "/blog/image-formats", component: ImageFormats },
   { path: "/blog/Ultimate-Guide-to-WebP", component: UltimateGuideToWebP },
   { path: "/blog/AVIF-vs-WebP", component: AVIFvsWebP },
-  { path: "/blog/Core-Web-Vitals", component: WebVitals }
+  { path: "/blog/Core-Web-Vitals", component: WebVitals },
+  { path: "/blog/why-images-load-slows", component: WhyImagesLoadSlows }
 ]
 
 //因为用了 ViteSSG，所以路由创建放在 main.js 中，index.js 只导出 routes 配置

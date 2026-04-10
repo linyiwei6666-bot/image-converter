@@ -43,7 +43,13 @@ const posts = [
     title: "Images and LCP: How I Fixed a 5-Second Load Time",
     path: "/blog/Core-Web-Vitals",
     description: "My own site had an LCP of 5.2 seconds because of one PNG I hadn't thought about. Converting it to WebP took LCP to 1.8 seconds on mobile. Here's what changed and what actually matters."
+  },
+  {
+    title: "Why Do Images Load So Slowly? (And What I Learned Building This Converter)",
+    path: "/blog/why-images-load-slows",
+    description: "Your images load fast on your machine because you already downloaded them. Here's what actually determines image load time for real users — and what I changed after figuring this out."
   }
+
 ]
 </script>
 
