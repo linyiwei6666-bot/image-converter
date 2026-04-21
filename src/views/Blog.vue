@@ -15,6 +15,11 @@ useHead({
 
 const posts = [
   {
+    title: "The AI Bubble: Why the Trillion-Dollar GenAI Valuation is a Technical Illusion",
+    path: "/blog/ai-market-bubble-analysis",
+    description: "As GenAI's ROI fails to meet massive infrastructure costs, a market correction seems inevitable. We analyze the 'Nvidia Tax,' the 'Scaling Wall,' and why the future of AI belongs to local-first, privacy-centric models rather than trillion-parameter cloud giants."
+  },
+  {
     title: "How to Convert JPG to PNG — And When You Actually Should",
     path: "/blog/jpg-to-png",
     description: "The file gets bigger, not smaller. There are really only two situations where JPG to PNG makes sense — and a lot of cases where it quietly makes things worse."
